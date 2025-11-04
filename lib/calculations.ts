@@ -25,6 +25,9 @@ export interface ExpertSettings {
   gasPriceIncrease: number; // % per year
   co2TaxSchedule: { year: number; pricePerTon: number }[];
   co2EmissionsGas: number; // kg CO2 per kWh gas
+  includeMaintenanceCosts: boolean; // Wartungskosten einberechnen
+  includeInverterReplacement: boolean; // Wechselrichter-Austausch einberechnen
+  includeBatteryDegradation: boolean; // Speicher-Degradation berücksichtigen
 }
 
 export interface CalculationResults {
@@ -274,21 +277,54 @@ export function calculateSystem(
     }
   }
 
-  // 8. Amortization
+  // 8. Additional costs (if enabled)
+  const maintenanceCostsPerYear = expert.includeMaintenanceCosts ? 150 : 0;
+  const inverterReplacementPerYear = expert.includeInverterReplacement ? 200 : 0;
+  const additionalCostsPerYear = maintenanceCostsPerYear + inverterReplacementPerYear;
+
+  // 9. Amortization
   // Average savings per year (considering price increases)
   const averageHeatingsSavings =
     heatingComparison.reduce((sum, y) => sum + y.savings, 0) /
     heatingComparison.length;
 
   const totalYearlySavingsIncludingHeating =
-    yearlyTotalSavings + averageHeatingsSavings;
+    yearlyTotalSavings + averageHeatingsSavings - additionalCostsPerYear;
 
   const amortizationYears =
     customer.totalInvestment / totalYearlySavingsIncludingHeating;
 
-  // 9. Profit after 20 years
-  // Simplified: Assume average savings continue
-  const totalSavings20Years = totalYearlySavingsIncludingHeating * 20;
+  // 10. Profit after 20 years (considering battery degradation if enabled)
+  let totalSavings20Years;
+
+  if (expert.includeBatteryDegradation && customer.batterySize > 0) {
+    // Calculate with battery degradation (1.5% per year, starting from year 5)
+    let yearlySavingsWithDegradation = 0;
+    for (let year = 1; year <= 20; year++) {
+      // Degradation starts at year 5: 1.5% per year
+      const yearsOfDegradation = Math.max(0, year - 5);
+      const degradationFactor = Math.pow(1 - 0.015, yearsOfDegradation);
+      const adjustedBatteryBoost = batteryBoost * degradationFactor;
+      const adjustedAutarky = Math.min(
+        expert.baseAutarky + adjustedBatteryBoost + emsBoost,
+        85
+      );
+      const adjustedSelfConsumption = Math.min(
+        pvProduction,
+        totalElectricityDemand * (adjustedAutarky / 100)
+      );
+      const adjustedElectricitySavings =
+        adjustedSelfConsumption * (customer.electricityPrice / 100);
+      const adjustedYearlySavings =
+        adjustedElectricitySavings + yearlyFeedInRevenue + averageHeatingsSavings - additionalCostsPerYear;
+      yearlySavingsWithDegradation += adjustedYearlySavings;
+    }
+    totalSavings20Years = yearlySavingsWithDegradation;
+  } else {
+    // Simplified: Assume average savings continue
+    totalSavings20Years = totalYearlySavingsIncludingHeating * 20;
+  }
+
   const profitAfter20Years = totalSavings20Years - customer.totalInvestment;
 
   return {
@@ -386,10 +422,10 @@ export function calculateHeatingScenario(
 
 export const defaultExpertSettings: ExpertSettings = {
   pvYieldPerKwp: 1000,
-  heatPumpJAZ: 4,
+  heatPumpJAZ: 3.0,
   baseAutarky: 30,
-  batteryAutarkyBoost: 25,
-  emsAutarkyBoost: 12, // ✅ Konservativ reduziert von 15% auf 12%
+  batteryAutarkyBoost: 18, // ✅ Realistisch mit WP: 15-20% (vorher 25%)
+  emsAutarkyBoost: 7.5, // ✅ Konservativ: 5-10% (vorher 12%)
   emsHeatPumpPvCoverage: 70, // ✅ WP bekommt max. 70% ihrer Last aus PV mit EMS
   emsMaxSelfConsumptionShare: 75, // ✅ Max 75% des Eigenverbrauchs kann zur WP gehen
   feedInTariff: 7.86, // ✅ Aktualisiert auf Aug 2025 Teileinspeisung bis 10 kWp
@@ -397,4 +433,7 @@ export const defaultExpertSettings: ExpertSettings = {
   gasPriceIncrease: 2,
   co2TaxSchedule: co2Scenarios.moderate, // ✅ Moderate Szenario (Standard)
   co2EmissionsGas: 0.24, // ✅ Korrigiert: 0.24 kg CO₂/kWh (vorher 0.2)
+  includeMaintenanceCosts: true, // Wartungskosten: 150 EUR/Jahr
+  includeInverterReplacement: false, // Wechselrichter: 200 EUR/Jahr (3000€ / 15 Jahre)
+  includeBatteryDegradation: false, // Speicher-Degradation: 2.5%/Jahr
 };

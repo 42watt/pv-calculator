@@ -157,7 +157,7 @@ export default function AdminPage() {
                 className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
               />
               <p className="text-xs text-[var(--color--dark-grey)] mt-1">
-                Typisch: 3.5-4.5
+                Typisch: 3.0-3.8 (realistisch mit Wärmepumpe)
               </p>
             </div>
 
@@ -191,7 +191,7 @@ export default function AdminPage() {
                 className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
               />
               <p className="text-xs text-[var(--color--dark-grey)] mt-1">
-                Typisch: 20-30% zusätzlich
+                Typisch: 15-25% zusätzlich (mit WP eher 15-20%)
               </p>
             </div>
 
@@ -208,7 +208,7 @@ export default function AdminPage() {
                 className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
               />
               <p className="text-xs text-[var(--color--dark-grey)] mt-1">
-                Typisch: 10-20% zusätzlich
+                Typisch: 5-10% zusätzlich (realistisch konservativ)
               </p>
             </div>
           </div>
@@ -283,6 +283,66 @@ export default function AdminPage() {
                 className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
               />
             </div>
+          </div>
+
+          {/* Additional Cost Checkboxes */}
+          <div className="mt-6 space-y-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.includeMaintenanceCosts}
+                onChange={(e) =>
+                  setSettings({ ...settings, includeMaintenanceCosts: e.target.checked })
+                }
+                className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+              />
+              <div className="flex-1">
+                <span className="text-sm font-semibold text-[var(--color--black)]">
+                  Wartungskosten einberechnen
+                </span>
+                <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                  150 €/Jahr für Wartung und Reinigung der PV-Anlage
+                </p>
+              </div>
+            </label>
+
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.includeInverterReplacement}
+                onChange={(e) =>
+                  setSettings({ ...settings, includeInverterReplacement: e.target.checked })
+                }
+                className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+              />
+              <div className="flex-1">
+                <span className="text-sm font-semibold text-[var(--color--black)]">
+                  Wechselrichter-Austausch einberechnen
+                </span>
+                <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                  200 €/Jahr Rücklage (3.000 € Austausch nach 15 Jahren)
+                </p>
+              </div>
+            </label>
+
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.includeBatteryDegradation}
+                onChange={(e) =>
+                  setSettings({ ...settings, includeBatteryDegradation: e.target.checked })
+                }
+                className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+              />
+              <div className="flex-1">
+                <span className="text-sm font-semibold text-[var(--color--black)]">
+                  Speicher-Degradation berücksichtigen
+                </span>
+                <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                  1.5%/Jahr Kapazitätsverlust (ab Jahr 5, realistisch)
+                </p>
+              </div>
+            </label>
           </div>
 
           <h2 className="text-2xl font-bold text-[var(--color--dark-blue)] mb-6 mt-8">

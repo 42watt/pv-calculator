@@ -324,6 +324,81 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
+              {/* Additional Options */}
+              <div className="pt-6 border-t border-[var(--color--medium-grey)]">
+                <h3 className="text-lg font-semibold text-[var(--color--black)] mb-4">
+                  Zusätzliche Kosten
+                </h3>
+
+                <div className="space-y-3">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={expertSettings.includeMaintenanceCosts}
+                      onChange={(e) =>
+                        setExpertSettings({
+                          ...expertSettings,
+                          includeMaintenanceCosts: e.target.checked,
+                        })
+                      }
+                      className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+                    />
+                    <div className="flex-1">
+                      <span className="text-sm font-semibold text-[var(--color--black)]">
+                        Wartungskosten einberechnen
+                      </span>
+                      <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                        150 €/Jahr für Wartung und Reinigung
+                      </p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={expertSettings.includeInverterReplacement}
+                      onChange={(e) =>
+                        setExpertSettings({
+                          ...expertSettings,
+                          includeInverterReplacement: e.target.checked,
+                        })
+                      }
+                      className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+                    />
+                    <div className="flex-1">
+                      <span className="text-sm font-semibold text-[var(--color--black)]">
+                        Wechselrichter-Austausch einberechnen
+                      </span>
+                      <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                        200 €/Jahr Rücklage (3.000 € nach 15 Jahren)
+                      </p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={expertSettings.includeBatteryDegradation}
+                      onChange={(e) =>
+                        setExpertSettings({
+                          ...expertSettings,
+                          includeBatteryDegradation: e.target.checked,
+                        })
+                      }
+                      className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+                    />
+                    <div className="flex-1">
+                      <span className="text-sm font-semibold text-[var(--color--black)]">
+                        Speicher-Degradation berücksichtigen
+                      </span>
+                      <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                        1.5%/Jahr Kapazitätsverlust (ab Jahr 5)
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
 
