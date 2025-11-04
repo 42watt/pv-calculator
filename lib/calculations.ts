@@ -13,6 +13,7 @@ export interface CustomerInputs {
 }
 
 export interface ExpertSettings {
+  version?: number; // Settings version for migration
   pvYieldPerKwp: number; // kWh/kWp/year
   heatPumpJAZ: number; // Coefficient of Performance
   baseAutarky: number; // % without battery/EMS
@@ -420,7 +421,10 @@ export function calculateHeatingScenario(
   return comparison;
 }
 
+const SETTINGS_VERSION = 2; // Erhöhen bei Breaking Changes
+
 export const defaultExpertSettings: ExpertSettings = {
+  version: SETTINGS_VERSION,
   pvYieldPerKwp: 1000,
   heatPumpJAZ: 3.0,
   baseAutarky: 30,
@@ -435,5 +439,24 @@ export const defaultExpertSettings: ExpertSettings = {
   co2EmissionsGas: 0.24, // ✅ Korrigiert: 0.24 kg CO₂/kWh (vorher 0.2)
   includeMaintenanceCosts: true, // Wartungskosten: 150 EUR/Jahr
   includeInverterReplacement: false, // Wechselrichter: 200 EUR/Jahr (3000€ / 15 Jahre)
-  includeBatteryDegradation: false, // Speicher-Degradation: 2.5%/Jahr
+  includeBatteryDegradation: false, // Speicher-Degradation: 1.5%/Jahr ab Jahr 5
+};
+
+// Migration function: Updates old settings to new defaults
+export function migrateSettings(saved: ExpertSettings): ExpertSettings {
+  // Version 1 -> Version 2: Update JAZ, battery boost, EMS boost
+  if (!saved.version || saved.version < 2) {
+    return {
+      ...saved,
+      version: SETTINGS_VERSION,
+      heatPumpJAZ: 3.0, // Update von 4.0 -> 3.0
+      batteryAutarkyBoost: 18, // Update von 25 -> 18
+      emsAutarkyBoost: 7.5, // Update von 12 -> 7.5
+      includeMaintenanceCosts: saved.includeMaintenanceCosts ?? true,
+      includeInverterReplacement: saved.includeInverterReplacement ?? false,
+      includeBatteryDegradation: saved.includeBatteryDegradation ?? false,
+    };
+  }
+
+  return saved;
 };

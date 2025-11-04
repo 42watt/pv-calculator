@@ -10,6 +10,7 @@ import {
   CalculationResults,
   co2Scenarios,
   calculateHeatingScenario,
+  migrateSettings,
 } from '@/lib/calculations';
 
 export default function Home() {
@@ -31,10 +32,17 @@ export default function Home() {
   const [results, setResults] = useState<CalculationResults | null>(null);
 
   useEffect(() => {
-    // Load expert settings from localStorage
+    // Load expert settings from localStorage and migrate if needed
     const saved = localStorage.getItem('expertSettings');
     if (saved) {
-      setExpertSettings(JSON.parse(saved));
+      const parsedSettings = JSON.parse(saved);
+      const migratedSettings = migrateSettings(parsedSettings);
+      setExpertSettings(migratedSettings);
+
+      // Auto-save migrated settings
+      if (migratedSettings.version !== parsedSettings.version) {
+        localStorage.setItem('expertSettings', JSON.stringify(migratedSettings));
+      }
     }
   }, []);
 

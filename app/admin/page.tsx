@@ -2,17 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ExpertSettings, defaultExpertSettings } from '@/lib/calculations';
+import { ExpertSettings, defaultExpertSettings, migrateSettings } from '@/lib/calculations';
 
 export default function AdminPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [settings, setSettings] = useState<ExpertSettings>(defaultExpertSettings);
 
   useEffect(() => {
-    // Load from localStorage
+    // Load from localStorage and migrate if needed
     const saved = localStorage.getItem('expertSettings');
     if (saved) {
-      setSettings(JSON.parse(saved));
+      const parsedSettings = JSON.parse(saved);
+      const migratedSettings = migrateSettings(parsedSettings);
+      setSettings(migratedSettings);
+
+      // Auto-save migrated settings
+      if (migratedSettings.version !== parsedSettings.version) {
+        localStorage.setItem('expertSettings', JSON.stringify(migratedSettings));
+      }
     }
   }, []);
 
