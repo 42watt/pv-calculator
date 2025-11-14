@@ -299,14 +299,9 @@ export function calculateSystem(
     heatingComparison.reduce((sum, y) => sum + y.savings, 0) /
     heatingComparison.length;
 
-  const totalYearlySavingsIncludingHeating =
-    yearlyTotalSavings + averageHeatingsSavings - additionalCostsPerYear;
-
-  const amortizationYears =
-    customer.totalInvestment / totalYearlySavingsIncludingHeating;
-
-  // 10. Profit after 20 years (considering battery degradation if enabled)
+  // 9. Calculate amortization and 20-year profit (with degradation if enabled)
   let totalSavings20Years;
+  let averageYearlySavings;
 
   if (expert.includeBatteryDegradation && customer.batterySize > 0) {
     // Calculate with battery degradation (1.5% per year, starting from year 5)
@@ -331,11 +326,14 @@ export function calculateSystem(
       yearlySavingsWithDegradation += adjustedYearlySavings;
     }
     totalSavings20Years = yearlySavingsWithDegradation;
+    averageYearlySavings = yearlySavingsWithDegradation / 20; // Durchschnitt über 20 Jahre mit Degradation
   } else {
     // Simplified: Assume average savings continue
-    totalSavings20Years = totalYearlySavingsIncludingHeating * 20;
+    averageYearlySavings = yearlyTotalSavings + averageHeatingsSavings - additionalCostsPerYear;
+    totalSavings20Years = averageYearlySavings * 20;
   }
 
+  const amortizationYears = customer.totalInvestment / averageYearlySavings;
   const profitAfter20Years = totalSavings20Years - customer.totalInvestment;
 
   return {
@@ -344,7 +342,7 @@ export function calculateSystem(
     emsBonus: Math.round(emsBonus),
     yearlyHeatingSavings: Math.round(averageHeatingsSavings),
     chimneySweepSavings: Math.round(chimneySweepSavings),
-    yearlyTotalSavings: Math.round(totalYearlySavingsIncludingHeating),
+    yearlyTotalSavings: Math.round(averageYearlySavings),
     pvProduction: Math.round(pvProduction),
     selfConsumption: Math.round(selfConsumption),
     feedIn: Math.round(feedIn),

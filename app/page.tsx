@@ -351,6 +351,15 @@ export default function Home() {
                       }}
                       className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
                     />
+                    {customerInputs.heatingType === 'oil' && (
+                      <div className="mt-2 p-3 bg-[var(--color--light-blue)] rounded-lg">
+                        <p className="text-xs text-white">
+                          💡 <strong>Info:</strong> 1 Liter Heizöl = ~10 kWh thermische Energie<br/>
+                          Aktueller Marktpreis: ~1,00 €/Liter = ~10 ct/kWh<br/>
+                          <span className="text-white opacity-80 text-[10px]">(Stand 2024/2025, bei 3.000 Liter Abnahme)</span>
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -690,7 +699,7 @@ export default function Home() {
                 {/* Heating Comparison */}
                 <div className="bg-white rounded-2xl shadow-lg p-6">
                   <h3 className="text-2xl font-bold text-[var(--color--dark-blue)] mb-4">
-                    Vergleich: Gasheizung vs. Wärmepumpe
+                    Vergleich: {customerInputs.heatingType === 'gas' ? 'Gasheizung' : 'Ölheizung'} vs. Wärmepumpe
                   </h3>
 
                   <div className="overflow-x-auto">
@@ -698,7 +707,7 @@ export default function Home() {
                       <thead>
                         <tr className="border-b-2 border-[var(--color--medium-grey)]">
                           <th className="text-left py-3 px-4 font-semibold">Jahr</th>
-                          <th className="text-right py-3 px-4 font-semibold">Gasheizung</th>
+                          <th className="text-right py-3 px-4 font-semibold">{customerInputs.heatingType === 'gas' ? 'Gasheizung' : 'Ölheizung'}</th>
                           <th className="text-right py-3 px-4 font-semibold">Wärmepumpe</th>
                           <th className="text-right py-3 px-4 font-semibold text-[var(--color--green)]">
                             Ersparnis
@@ -731,12 +740,12 @@ export default function Home() {
 
                   <div className="mt-6 p-4 bg-[var(--color--yellow)] bg-opacity-20 rounded-lg">
                     <p className="text-sm text-[var(--color--black)] mb-3">
-                      💡 Die Gaskosten steigen durch die CO₂-Steuer jedes Jahr deutlich an,
+                      💡 Die {customerInputs.heatingType === 'gas' ? 'Gaskosten' : 'Ölkosten'} steigen durch die CO₂-Steuer jedes Jahr deutlich an,
                       während Ihre Wärmepumpe größtenteils mit selbst erzeugtem Solarstrom läuft.
                     </p>
                     <p className="text-xs text-[var(--color--dark-grey)]">
-                      <strong>Aktuelle Gaskosten:</strong> {customerInputs.gasPrice} ct/kWh für {customerInputs.heatingConsumption.toLocaleString('de-DE')} kWh = {Math.round((customerInputs.gasPrice / 100) * customerInputs.heatingConsumption).toLocaleString('de-DE')} € jährlich<br />
-                      <strong>Jährliche Preissteigerungen:</strong> Strom: {expertSettings.electricityPriceIncrease}% | Gas: {expertSettings.gasPriceIncrease}% (zzgl. CO₂-Steuer)<br />
+                      <strong>Aktuelle {customerInputs.heatingType === 'gas' ? 'Gaskosten' : 'Ölkosten'}:</strong> {customerInputs.heatingType === 'gas' ? customerInputs.gasPrice : customerInputs.oilPrice} ct/kWh für {customerInputs.heatingConsumption.toLocaleString('de-DE')} kWh = {Math.round(((customerInputs.heatingType === 'gas' ? customerInputs.gasPrice : customerInputs.oilPrice) / 100) * customerInputs.heatingConsumption).toLocaleString('de-DE')} € jährlich<br />
+                      <strong>Jährliche Preissteigerungen:</strong> Strom: {expertSettings.electricityPriceIncrease}% | {customerInputs.heatingType === 'gas' ? 'Gas' : 'Öl'}: {expertSettings.gasPriceIncrease}% (zzgl. CO₂-Steuer)<br />
                       <strong>Autarkie-Steigerung:</strong> Speicher: +{expertSettings.batteryAutarkyBoost}% | EMS: +{expertSettings.emsAutarkyBoost}%
                     </p>
                   </div>
