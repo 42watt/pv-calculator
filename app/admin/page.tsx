@@ -146,7 +146,7 @@ export default function AdminPage() {
                 className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
               />
               <p className="text-xs text-[var(--color--dark-grey)] mt-1">
-                Typisch: 900-1200 je nach Region
+                Typisch: 800-1000 je nach Region (inkl. Verluste)
               </p>
             </div>
 
@@ -308,7 +308,7 @@ export default function AdminPage() {
                   Wartungskosten einberechnen
                 </span>
                 <p className="text-xs text-[var(--color--dark-grey)] mt-1">
-                  150 €/Jahr für Wartung und Reinigung der PV-Anlage
+                  299 €/Jahr für Wartung und Reinigung der PV-Anlage
                 </p>
               </div>
             </label>
@@ -347,6 +347,25 @@ export default function AdminPage() {
                 </span>
                 <p className="text-xs text-[var(--color--dark-grey)] mt-1">
                   1.5%/Jahr Kapazitätsverlust (ab Jahr 5, realistisch)
+                </p>
+              </div>
+            </label>
+
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.includeChimneySweep}
+                onChange={(e) =>
+                  setSettings({ ...settings, includeChimneySweep: e.target.checked })
+                }
+                className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+              />
+              <div className="flex-1">
+                <span className="text-sm font-semibold text-[var(--color--black)]">
+                  Kaminkehrer-Kosten entfallen
+                </span>
+                <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                  100 €/Jahr Ersparnis durch Wegfall des Kaminkehrers mit Wärmepumpe
                 </p>
               </div>
             </label>

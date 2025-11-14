@@ -2,6 +2,7 @@
 export interface CustomerInputs {
   householdConsumption: number; // kWh
   heatingConsumption: number; // kWh (Gas/Oil)
+  heatingType: 'gas' | 'oil'; // Heizungstyp: Gas oder Öl
   hasECar: boolean;
   eCarKm: number; // km per year
   pvSize: number; // kWp
@@ -10,6 +11,7 @@ export interface CustomerInputs {
   totalInvestment: number; // €
   electricityPrice: number; // ct/kWh
   gasPrice: number; // ct/kWh
+  oilPrice: number; // ct/kWh
 }
 
 export interface ExpertSettings {
@@ -29,6 +31,7 @@ export interface ExpertSettings {
   includeMaintenanceCosts: boolean; // Wartungskosten einberechnen
   includeInverterReplacement: boolean; // Wechselrichter-Austausch einberechnen
   includeBatteryDegradation: boolean; // Speicher-Degradation berücksichtigen
+  includeChimneySweep: boolean; // Kaminkehrer-Kosten (entfallen mit Wärmepumpe)
 }
 
 export interface CalculationResults {
@@ -37,6 +40,7 @@ export interface CalculationResults {
   yearlyFeedInRevenue: number;
   emsBonus: number;
   yearlyHeatingSavings: number;
+  chimneySweepSavings: number;
   yearlyTotalSavings: number;
 
   // System performance
@@ -196,16 +200,21 @@ export function calculateSystem(
   for (let year = 1; year <= 10; year++) {
     const yearNumber = 2025 + (year - 1);
 
-    // Gas costs with CO2 tax
+    // Gas/Oil costs with CO2 tax
     const co2Tax = expert.co2TaxSchedule.find(s => s.year === yearNumber);
     const co2TaxPerKwh = co2Tax
       ? (expert.co2EmissionsGas * co2Tax.pricePerTon) / 1000
       : 0;
 
     const gasInflation = Math.pow(1 + expert.gasPriceIncrease / 100, year - 1);
-    const gasBasePrice = customer.gasPrice / 100;
+
+    // Use the correct heating price based on heatingType
+    const heatingBasePrice = customer.heatingType === 'gas'
+      ? customer.gasPrice / 100
+      : customer.oilPrice / 100;
+
     const gasCosts =
-      (gasBasePrice * gasInflation + co2TaxPerKwh) *
+      (heatingBasePrice * gasInflation + co2TaxPerKwh) *
       customer.heatingConsumption;
 
     // Heat pump costs (electricity for heat pump)
@@ -279,9 +288,10 @@ export function calculateSystem(
   }
 
   // 8. Additional costs (if enabled)
-  const maintenanceCostsPerYear = expert.includeMaintenanceCosts ? 150 : 0;
+  const maintenanceCostsPerYear = expert.includeMaintenanceCosts ? 299 : 0;
   const inverterReplacementPerYear = expert.includeInverterReplacement ? 200 : 0;
-  const additionalCostsPerYear = maintenanceCostsPerYear + inverterReplacementPerYear;
+  const chimneySweepSavings = expert.includeChimneySweep ? 100 : 0; // Kaminkehrer entfällt mit WP
+  const additionalCostsPerYear = maintenanceCostsPerYear + inverterReplacementPerYear - chimneySweepSavings;
 
   // 9. Amortization
   // Average savings per year (considering price increases)
@@ -333,6 +343,7 @@ export function calculateSystem(
     yearlyFeedInRevenue: Math.round(yearlyFeedInRevenue),
     emsBonus: Math.round(emsBonus),
     yearlyHeatingSavings: Math.round(averageHeatingsSavings),
+    chimneySweepSavings: Math.round(chimneySweepSavings),
     yearlyTotalSavings: Math.round(totalYearlySavingsIncludingHeating),
     pvProduction: Math.round(pvProduction),
     selfConsumption: Math.round(selfConsumption),
@@ -425,7 +436,7 @@ const SETTINGS_VERSION = 2; // Erhöhen bei Breaking Changes
 
 export const defaultExpertSettings: ExpertSettings = {
   version: SETTINGS_VERSION,
-  pvYieldPerKwp: 1000,
+  pvYieldPerKwp: 800, // ✅ Realistisch: 800 kWh/kWp (20% weniger als theoretisch)
   heatPumpJAZ: 3.0,
   baseAutarky: 30,
   batteryAutarkyBoost: 18, // ✅ Realistisch mit WP: 15-20% (vorher 25%)
@@ -437,9 +448,10 @@ export const defaultExpertSettings: ExpertSettings = {
   gasPriceIncrease: 2,
   co2TaxSchedule: co2Scenarios.moderate, // ✅ Moderate Szenario (Standard)
   co2EmissionsGas: 0.24, // ✅ Korrigiert: 0.24 kg CO₂/kWh (vorher 0.2)
-  includeMaintenanceCosts: true, // Wartungskosten: 150 EUR/Jahr
+  includeMaintenanceCosts: true, // Wartungskosten: 299 EUR/Jahr
   includeInverterReplacement: false, // Wechselrichter: 200 EUR/Jahr (3000€ / 15 Jahre)
   includeBatteryDegradation: false, // Speicher-Degradation: 1.5%/Jahr ab Jahr 5
+  includeChimneySweep: true, // Kaminkehrer-Kosten entfallen: 100 EUR/Jahr Ersparnis
 };
 
 // Migration function: Updates old settings to new defaults
@@ -449,12 +461,14 @@ export function migrateSettings(saved: ExpertSettings): ExpertSettings {
     return {
       ...saved,
       version: SETTINGS_VERSION,
+      pvYieldPerKwp: 800, // Update auf 800 kWh/kWp (realistisch)
       heatPumpJAZ: 3.0, // Update von 4.0 -> 3.0
       batteryAutarkyBoost: 18, // Update von 25 -> 18
       emsAutarkyBoost: 7.5, // Update von 12 -> 7.5
       includeMaintenanceCosts: saved.includeMaintenanceCosts ?? true,
       includeInverterReplacement: saved.includeInverterReplacement ?? false,
       includeBatteryDegradation: saved.includeBatteryDegradation ?? false,
+      includeChimneySweep: saved.includeChimneySweep ?? true,
     };
   }
 

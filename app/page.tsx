@@ -18,6 +18,7 @@ export default function Home() {
   const [customerInputs, setCustomerInputs] = useState<CustomerInputs>({
     householdConsumption: 4000,
     heatingConsumption: 24000,
+    heatingType: 'gas',
     hasECar: false,
     eCarKm: 15000,
     pvSize: 10,
@@ -26,6 +27,7 @@ export default function Home() {
     totalInvestment: 35000,
     electricityPrice: 28,
     gasPrice: 11,
+    oilPrice: 12,
   });
 
   const [expertSettings, setExpertSettings] = useState<ExpertSettings>(defaultExpertSettings);
@@ -54,7 +56,7 @@ export default function Home() {
     }
   }, [customerInputs, expertSettings]);
 
-  const handleInputChange = (field: keyof CustomerInputs, value: number | boolean) => {
+  const handleInputChange = (field: keyof CustomerInputs, value: number | boolean | string) => {
     setCustomerInputs((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -318,15 +320,35 @@ export default function Home() {
 
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                      Gaspreis (ct/kWh)
+                      Heizungstyp
+                    </label>
+                    <select
+                      value={customerInputs.heatingType}
+                      onChange={(e) =>
+                        handleInputChange('heatingType', e.target.value as 'gas' | 'oil')
+                      }
+                      className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    >
+                      <option value="gas">Gas</option>
+                      <option value="oil">Öl</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
+                      {customerInputs.heatingType === 'gas' ? 'Gaspreis' : 'Ölpreis'} (ct/kWh)
                     </label>
                     <input
                       type="number"
                       step="0.1"
-                      value={customerInputs.gasPrice}
-                      onChange={(e) =>
-                        handleInputChange('gasPrice', parseFloat(e.target.value))
-                      }
+                      value={customerInputs.heatingType === 'gas' ? customerInputs.gasPrice : customerInputs.oilPrice}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? 0 : parseFloat(e.target.value);
+                        handleInputChange(
+                          customerInputs.heatingType === 'gas' ? 'gasPrice' : 'oilPrice',
+                          value
+                        );
+                      }}
                       className="w-full px-4 py-2 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
                     />
                   </div>
@@ -357,7 +379,7 @@ export default function Home() {
                         Wartungskosten einberechnen
                       </span>
                       <p className="text-xs text-[var(--color--dark-grey)] mt-1">
-                        150 €/Jahr für Wartung und Reinigung
+                        299 €/Jahr für Wartung und Reinigung
                       </p>
                     </div>
                   </label>
@@ -405,6 +427,28 @@ export default function Home() {
                       </p>
                     </div>
                   </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={expertSettings.includeChimneySweep}
+                      onChange={(e) =>
+                        setExpertSettings({
+                          ...expertSettings,
+                          includeChimneySweep: e.target.checked,
+                        })
+                      }
+                      className="mt-1 w-5 h-5 text-[var(--color--light-blue)] border-2 border-[var(--color--medium-grey)] rounded focus:ring-[var(--color--light-blue)]"
+                    />
+                    <div className="flex-1">
+                      <span className="text-sm font-semibold text-[var(--color--black)]">
+                        Kaminkehrer-Kosten entfallen
+                      </span>
+                      <p className="text-xs text-[var(--color--dark-grey)] mt-1">
+                        100 €/Jahr Ersparnis durch Wärmepumpe
+                      </p>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -414,6 +458,19 @@ export default function Home() {
           <div className="lg:col-span-2">
             {results && (
               <div className="space-y-6">
+                {/* Export Button */}
+                <div className="flex justify-end print:hidden">
+                  <button
+                    onClick={() => window.print()}
+                    className="px-6 py-3 bg-[var(--color--dark-blue)] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Als PDF exportieren
+                  </button>
+                </div>
+
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-[var(--color--green)] text-white rounded-xl p-6">
@@ -468,8 +525,17 @@ export default function Home() {
                       </div>
                     )}
 
+                    {results.chimneySweepSavings > 0 && (
+                      <div className="flex justify-between items-center py-2 border-b border-[var(--color--light-grey)]">
+                        <span className="text-[var(--color--black)]">Kaminkehrer entfällt</span>
+                        <span className="font-bold text-[var(--color--green)]">
+                          {results.chimneySweepSavings.toLocaleString('de-DE')} €
+                        </span>
+                      </div>
+                    )}
+
                     <div className="flex justify-between items-center py-2 border-b border-[var(--color--light-grey)]">
-                      <span className="text-[var(--color--black)]">Heizkosten gespart (WP vs. Gas)</span>
+                      <span className="text-[var(--color--black)]">Heizkosten gespart (WP vs. {customerInputs.heatingType === 'gas' ? 'Gas' : 'Öl'})</span>
                       <span className="font-bold text-[var(--color--green)]">
                         {results.yearlyHeatingSavings.toLocaleString('de-DE')} €
                       </span>
@@ -489,11 +555,11 @@ export default function Home() {
                 {/* CO₂ Scenarios Comparison */}
                 <div className="bg-white rounded-2xl shadow-lg p-6">
                   <h3 className="text-2xl font-bold text-[var(--color--dark-blue)] mb-4">
-                    CO₂-Steuer Szenarien: Gasheizung Kostensteigerung
+                    CO₂-Steuer Szenarien: {customerInputs.heatingType === 'gas' ? 'Gasheizung' : 'Ölheizung'} Kostensteigerung
                   </h3>
 
                   <p className="text-sm text-[var(--color--dark-grey)] mb-6">
-                    Die Entwicklung der CO₂-Steuer beeinflusst Ihre Gasheizungskosten stark.
+                    Die Entwicklung der CO₂-Steuer beeinflusst Ihre {customerInputs.heatingType === 'gas' ? 'Gasheizungskosten' : 'Ölheizungskosten'} stark.
                     Hier sehen Sie 3 Szenarien basierend auf politischen Prognosen:
                   </p>
 
