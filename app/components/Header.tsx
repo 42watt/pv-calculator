@@ -85,7 +85,7 @@ export default function Header({ currentPage }: HeaderProps) {
             rel="noopener noreferrer"
             className="cta-button"
           >
-            Planung starten
+            Jetzt Angebot einholen
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
@@ -136,7 +136,7 @@ export default function Header({ currentPage }: HeaderProps) {
                 rel="noopener noreferrer"
                 className="cta-button w-full justify-center"
               >
-                Planung starten
+                Jetzt Angebot einholen
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
