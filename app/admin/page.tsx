@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { ExpertSettings, defaultExpertSettings, migrateSettings } from '@/lib/calculations';
 
 export default function AdminPage() {
@@ -356,6 +357,7 @@ export default function AdminPage() {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

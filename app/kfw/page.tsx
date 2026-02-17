@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 interface FoerderInputs {
   buildingType: 'single_family_home' | 'multi_family_home' | 'condominium_assoc' | '';
@@ -830,6 +831,7 @@ export default function WaermepumpenFoerderrechner() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

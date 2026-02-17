@@ -3,11 +3,22 @@
 import { useState, useRef, useEffect } from 'react';
 
 export default function LoadingScreen() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    // Only show loading screen on first visit per session
+    const hasSeenLoading = sessionStorage.getItem('42watt-loading-seen');
+    if (hasSeenLoading) {
+      setVisible(false);
+      return;
+    }
+
+    // First visit in this session – show loading animation
+    setVisible(true);
+    sessionStorage.setItem('42watt-loading-seen', 'true');
+
     // Fallback: hide after 3 seconds if video doesn't load/play
     const fallbackTimer = setTimeout(() => {
       setFadeOut(true);
