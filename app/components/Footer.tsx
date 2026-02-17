@@ -8,44 +8,6 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Main Footer Content */}
         <div className="footer-grid">
-          {/* Produkte */}
-          <div>
-            <h4 className="footer-heading">Produkte</h4>
-            <ul className="footer-links">
-              <li><a href="https://www.42watt.de/komplettsystem" target="_blank" rel="noopener noreferrer">Komplettsystem</a></li>
-              <li><a href="https://www.42watt.de/warmepumpe" target="_blank" rel="noopener noreferrer">Wärmepumpe</a></li>
-              <li><a href="https://www.42watt.de/photovoltaik-batterie" target="_blank" rel="noopener noreferrer">Photovoltaik + Batterie</a></li>
-              <li><a href="https://www.42watt.de/wallbox" target="_blank" rel="noopener noreferrer">Wallbox</a></li>
-              <li><a href="https://www.42watt.de/klimaanlage" target="_blank" rel="noopener noreferrer">Klimaanlage</a></li>
-              <li><a href="https://www.42watt.de/ems-stromtarif" target="_blank" rel="noopener noreferrer">EMS + Stromtarif</a></li>
-              <li><a href="https://www.42watt.de/sanierungsfahrplan" target="_blank" rel="noopener noreferrer">Sanierungsfahrplan</a></li>
-              <li><a href="https://www.42watt.de/foerderservice" target="_blank" rel="noopener noreferrer">Förderservice</a></li>
-            </ul>
-          </div>
-
-          {/* So funktioniert's */}
-          <div>
-            <h4 className="footer-heading">So funktioniert&apos;s</h4>
-            <ul className="footer-links">
-              <li><a href="https://www.42watt.de/prozess" target="_blank" rel="noopener noreferrer">Unser Prozess</a></li>
-              <li><a href="https://www.42watt.de/standards" target="_blank" rel="noopener noreferrer">Unsere Standards</a></li>
-              <li><a href="https://www.42watt.de/regionen" target="_blank" rel="noopener noreferrer">Unsere Regionen</a></li>
-              <li><a href="https://www.42watt.de/blog" target="_blank" rel="noopener noreferrer">Blog</a></li>
-              <li><a href="https://www.42watt.de/faqs" target="_blank" rel="noopener noreferrer">FAQs</a></li>
-              <li><a href="https://www.42watt.de/login" target="_blank" rel="noopener noreferrer">Login</a></li>
-              <li><a href="https://www.42watt.de/kontakt" target="_blank" rel="noopener noreferrer">Kontakt</a></li>
-            </ul>
-          </div>
-
-          {/* Über uns */}
-          <div>
-            <h4 className="footer-heading">Über uns</h4>
-            <ul className="footer-links">
-              <li><a href="https://www.42watt.de" target="_blank" rel="noopener noreferrer">42watt</a></li>
-              <li><a href="https://www.42watt.de/karriere" target="_blank" rel="noopener noreferrer">Karriere</a></li>
-            </ul>
-          </div>
-
           {/* Kontakt */}
           <div>
             <h4 className="footer-heading">Kontakt</h4>
