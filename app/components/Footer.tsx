@@ -12,12 +12,12 @@ export default function Footer() {
           <div>
             <h4 className="footer-heading">Produkte</h4>
             <ul className="footer-links">
-              <li><a href="https://www.42watt.de/waermepumpe" target="_blank" rel="noopener noreferrer">Wärmepumpe</a></li>
-              <li><a href="https://www.42watt.de/photovoltaik" target="_blank" rel="noopener noreferrer">Photovoltaik</a></li>
-              <li><a href="https://www.42watt.de/ems" target="_blank" rel="noopener noreferrer">EMS</a></li>
-              <li><a href="https://www.42watt.de/wallbox" target="_blank" rel="noopener noreferrer">Wallbox</a></li>
-              <li><a href="https://www.42watt.de/batteriespeicher" target="_blank" rel="noopener noreferrer">Batteriespeicher</a></li>
-              <li><a href="https://www.42watt.de/klimaanlage" target="_blank" rel="noopener noreferrer">Klimaanlage</a></li>
+              <li><a href="https://www.42watt.de/waermepumpe?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_produkte" target="_blank" rel="noopener noreferrer">Wärmepumpe</a></li>
+              <li><a href="https://www.42watt.de/photovoltaik?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_produkte" target="_blank" rel="noopener noreferrer">Photovoltaik</a></li>
+              <li><a href="https://www.42watt.de/ems?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_produkte" target="_blank" rel="noopener noreferrer">EMS</a></li>
+              <li><a href="https://www.42watt.de/wallbox?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_produkte" target="_blank" rel="noopener noreferrer">Wallbox</a></li>
+              <li><a href="https://www.42watt.de/batteriespeicher?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_produkte" target="_blank" rel="noopener noreferrer">Batteriespeicher</a></li>
+              <li><a href="https://www.42watt.de/klimaanlage?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_produkte" target="_blank" rel="noopener noreferrer">Klimaanlage</a></li>
             </ul>
           </div>
 
@@ -25,7 +25,7 @@ export default function Footer() {
           <div>
             <h4 className="footer-heading">Karriere</h4>
             <ul className="footer-links">
-              <li><a href="https://www.42watt.de/karriere" target="_blank" rel="noopener noreferrer">Jobs bei 42watt</a></li>
+              <li><a href="https://www.42watt.de/karriere?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=footer_karriere" target="_blank" rel="noopener noreferrer">Jobs bei 42watt</a></li>
             </ul>
           </div>
 

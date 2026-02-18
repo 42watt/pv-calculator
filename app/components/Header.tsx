@@ -80,7 +80,7 @@ export default function Header({ currentPage }: HeaderProps) {
         {/* Desktop Right - CTA Button */}
         <div className="hidden md:flex items-center">
           <a
-            href="https://www.42watt.de/warmepumpe-v3"
+            href="https://www.42watt.de/warmepumpe-v3?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=header_cta"
             target="_blank"
             rel="noopener noreferrer"
             className="cta-button"
@@ -131,7 +131,7 @@ export default function Header({ currentPage }: HeaderProps) {
 
             <div className="pt-3">
               <a
-                href="https://www.42watt.de/warmepumpe-v3"
+                href="https://www.42watt.de/warmepumpe-v3?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=mobile_cta"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-button w-full justify-center"

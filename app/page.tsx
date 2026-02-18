@@ -21,7 +21,7 @@ export default function Home() {
               das Maximum aus deiner Energiewende herausholst.
             </p>
             <a
-              href="https://www.42watt.de/warmepumpe-v3"
+              href="https://www.42watt.de/warmepumpe-v3?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=hero_cta"
               target="_blank"
               rel="noopener noreferrer"
               className="cta-button text-base"
