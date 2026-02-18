@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import LoadingScreen from "./components/LoadingScreen";
 
@@ -24,6 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
+      <head>
+        <Script
+          src="https://cdn.cookie-script.com/s/36bfe0190baf9d56e43e26cd44e5ecc4.js"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body className={`${manrope.variable} antialiased`}>
         <LoadingScreen />
         {children}
