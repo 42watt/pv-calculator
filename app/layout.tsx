@@ -30,6 +30,18 @@ export default function RootLayout({
           src="https://cdn.cookie-script.com/s/36bfe0190baf9d56e43e26cd44e5ecc4.js"
           strategy="beforeInteractive"
         />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XHCSWCENVZ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XHCSWCENVZ');
+          `}
+        </Script>
       </head>
       <body className={`${manrope.variable} antialiased`}>
         <LoadingScreen />
