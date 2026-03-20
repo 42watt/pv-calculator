@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 interface HeaderProps {
-  currentPage?: 'home' | 'pv' | 'kfw' | 'admin';
+  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'admin';
 }
 
 export default function Header({ currentPage }: HeaderProps) {
@@ -64,14 +64,28 @@ export default function Header({ currentPage }: HeaderProps) {
                     <div className="text-xs text-[var(--color--dark-grey)]">Fördermittel berechnen</div>
                   </div>
                 </Link>
-                <div className="dropdown-item dropdown-item-disabled">
-                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0 opacity-40" />
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold text-[var(--color--dark-grey)]">PV-Wärmepumpenkalkulator</div>
-                    <div className="text-xs text-[var(--color--medium-grey)]">Wirtschaftlichkeit berechnen</div>
+                <Link
+                  href="/pv-rechner"
+                  className={`dropdown-item ${currentPage === 'pv' ? 'dropdown-item-active' : ''}`}
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">PV-Wärmepumpenkalkulator</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Wirtschaftlichkeit berechnen</div>
                   </div>
-                  <span className="coming-soon-badge">Soon</span>
-                </div>
+                </Link>
+                <Link
+                  href="/pv-investition"
+                  className={`dropdown-item ${currentPage === 'pv-investition' ? 'dropdown-item-active' : ''}`}
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">PV-Investitionsrechner</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">PV-Investition bewerten</div>
+                  </div>
+                </Link>
               </div>
             )}
           </div>
@@ -123,11 +137,22 @@ export default function Header({ currentPage }: HeaderProps) {
               <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
               KfW Förderrechner
             </Link>
-            <div className="mobile-nav-item mobile-nav-disabled">
-              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4 opacity-40" />
-              <span className="text-[var(--color--dark-grey)]">PV-Wärmepumpenkalkulator</span>
-              <span className="coming-soon-badge ml-auto">Soon</span>
-            </div>
+            <Link
+              href="/pv-rechner"
+              className={`mobile-nav-item ${currentPage === 'pv' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              PV-Wärmepumpenkalkulator
+            </Link>
+            <Link
+              href="/pv-investition"
+              className={`mobile-nav-item ${currentPage === 'pv-investition' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              PV-Investitionsrechner
+            </Link>
 
             <div className="pt-3">
               <a

@@ -37,9 +37,9 @@ export default function Home() {
 
       {/* Tools Section */}
       <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          {/* KfW Förderrechner - Active */}
+          {/* KfW Förderrechner */}
           <Link href="/kfw" className="tool-card group">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -63,29 +63,53 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* PV-Rechner - Coming Soon */}
-          <div className="tool-card tool-card-disabled">
+          {/* PV-Wärmepumpenkalkulator */}
+          <Link href="/pv-rechner" className="tool-card group">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="tool-icon tool-icon-disabled">
+                <div className="tool-icon tool-icon-active">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-[var(--color--dark-grey)]">
+                  <h3 className="text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors">
                     PV-Wärmepumpenkalkulator
                   </h3>
-                  <p className="text-sm text-[var(--color--medium-grey)]">
+                  <p className="text-sm text-[var(--color--dark-grey)]">
                     Wirtschaftlichkeit berechnen
                   </p>
                 </div>
               </div>
-              <span className="coming-soon-badge">
-                Coming Soon
-              </span>
+              <svg className="w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-          </div>
+          </Link>
+
+          {/* PV-Investitionsrechner */}
+          <Link href="/pv-investition" className="tool-card group">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="tool-icon tool-icon-active">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors">
+                    PV-Investitionsrechner
+                  </h3>
+                  <p className="text-sm text-[var(--color--dark-grey)]">
+                    PV-Investition bewerten
+                  </p>
+                </div>
+              </div>
+              <svg className="w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </Link>
 
         </div>
 
