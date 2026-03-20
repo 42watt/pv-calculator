@@ -37,7 +37,7 @@ export default function Home() {
 
       {/* Tools Section */}
       <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* KfW Förderrechner */}
           <Link href="/kfw" className="tool-card group">
@@ -102,6 +102,30 @@ export default function Home() {
                   </h3>
                   <p className="text-sm text-[var(--color--dark-grey)]">
                     PV-Investition bewerten
+                  </p>
+                </div>
+              </div>
+              <svg className="w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </Link>
+
+          {/* WP-Amortisationsrechner */}
+          <Link href="/waermepumpe-rechner" className="tool-card group">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="tool-icon tool-icon-active">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors">
+                    WP-Amortisationsrechner
+                  </h3>
+                  <p className="text-sm text-[var(--color--dark-grey)]">
+                    Wärmepumpe vs. Gas, Öl & Co.
                   </p>
                 </div>
               </div>

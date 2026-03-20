@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 interface HeaderProps {
-  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'admin';
+  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'wp-rechner' | 'admin';
 }
 
 export default function Header({ currentPage }: HeaderProps) {
@@ -86,6 +86,17 @@ export default function Header({ currentPage }: HeaderProps) {
                     <div className="text-xs text-[var(--color--dark-grey)]">PV-Investition bewerten</div>
                   </div>
                 </Link>
+                <Link
+                  href="/waermepumpe-rechner"
+                  className={`dropdown-item ${currentPage === 'wp-rechner' ? 'dropdown-item-active' : ''}`}
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">WP-Amortisationsrechner</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Wärmepumpe vs. Altsystem</div>
+                  </div>
+                </Link>
               </div>
             )}
           </div>
@@ -152,6 +163,14 @@ export default function Header({ currentPage }: HeaderProps) {
             >
               <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
               PV-Investitionsrechner
+            </Link>
+            <Link
+              href="/waermepumpe-rechner"
+              className={`mobile-nav-item ${currentPage === 'wp-rechner' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              WP-Amortisationsrechner
             </Link>
 
             <div className="pt-3">
