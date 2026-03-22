@@ -7,7 +7,7 @@ import LoadingScreen from "./components/LoadingScreen";
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
+  weight: ["400", "600"],
 });
 
 const siteUrl = "https://tools.42watt.de";
@@ -129,13 +129,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <Script
           src="https://cdn.cookie-script.com/s/36bfe0190baf9d56e43e26cd44e5ecc4.js"
-          strategy="beforeInteractive"
+          strategy="lazyOnload"
         />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XHCSWCENVZ"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
