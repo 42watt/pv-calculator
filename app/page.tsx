@@ -4,9 +4,32 @@ import Link from 'next/link';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': 'https://tools.42watt.de/#collection',
+  url: 'https://tools.42watt.de',
+  name: '42watt Tools – Rechner für PV, Wärmepumpe & Förderung',
+  description:
+    'Kostenlose Online-Rechner für Photovoltaik, Wärmepumpe und KfW-Förderung.',
+  publisher: { '@id': 'https://www.42watt.de/#organization' },
+  inLanguage: 'de-DE',
+  isPartOf: { '@id': 'https://tools.42watt.de/#website' },
+  hasPart: [
+    { '@type': 'SoftwareApplication', name: 'KfW Förderrechner', url: 'https://tools.42watt.de/kfw' },
+    { '@type': 'SoftwareApplication', name: 'PV & Wärmepumpe Rechner', url: 'https://tools.42watt.de/pv-rechner' },
+    { '@type': 'SoftwareApplication', name: 'PV-Investitionsrechner', url: 'https://tools.42watt.de/pv-investition' },
+    { '@type': 'SoftwareApplication', name: 'Wärmepumpen-Amortisationsrechner', url: 'https://tools.42watt.de/waermepumpe-rechner' },
+  ],
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+      />
       <Header currentPage="home" />
 
       {/* Hero Section */}
