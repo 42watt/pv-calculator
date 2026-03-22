@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface HeaderProps {
   currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'wp-rechner' | 'admin';
@@ -28,7 +29,7 @@ export default function Header({ currentPage }: HeaderProps) {
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
-          <img src="/logo.svg" alt="42watt" className="h-8" />
+          <Image src="/logo.svg" alt="42watt – Zurück zur Startseite" width={120} height={32} priority />
         </Link>
 
         {/* Desktop Navigation - Center */}
@@ -58,7 +59,7 @@ export default function Header({ currentPage }: HeaderProps) {
                   className={`dropdown-item ${currentPage === 'kfw' ? 'dropdown-item-active' : ''}`}
                   onClick={() => setToolsOpen(false)}
                 >
-                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-[var(--color--black)]">KfW Förderrechner</div>
                     <div className="text-xs text-[var(--color--dark-grey)]">Fördermittel berechnen</div>
@@ -69,7 +70,7 @@ export default function Header({ currentPage }: HeaderProps) {
                   className={`dropdown-item ${currentPage === 'pv' ? 'dropdown-item-active' : ''}`}
                   onClick={() => setToolsOpen(false)}
                 >
-                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-[var(--color--black)]">PV-Wärmepumpenkalkulator</div>
                     <div className="text-xs text-[var(--color--dark-grey)]">Wirtschaftlichkeit berechnen</div>
@@ -80,7 +81,7 @@ export default function Header({ currentPage }: HeaderProps) {
                   className={`dropdown-item ${currentPage === 'pv-investition' ? 'dropdown-item-active' : ''}`}
                   onClick={() => setToolsOpen(false)}
                 >
-                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-[var(--color--black)]">PV-Investitionsrechner</div>
                     <div className="text-xs text-[var(--color--dark-grey)]">PV-Investition bewerten</div>
@@ -91,7 +92,7 @@ export default function Header({ currentPage }: HeaderProps) {
                   className={`dropdown-item ${currentPage === 'wp-rechner' ? 'dropdown-item-active' : ''}`}
                   onClick={() => setToolsOpen(false)}
                 >
-                  <img src="/aufzaehlung.svg" alt="" className="w-5 h-5 flex-shrink-0" />
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-[var(--color--black)]">WP-Amortisationsrechner</div>
                     <div className="text-xs text-[var(--color--dark-grey)]">Wärmepumpe vs. Altsystem</div>
@@ -145,7 +146,7 @@ export default function Header({ currentPage }: HeaderProps) {
               className={`mobile-nav-item ${currentPage === 'kfw' ? 'mobile-nav-active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
-              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
               KfW Förderrechner
             </Link>
             <Link
@@ -153,7 +154,7 @@ export default function Header({ currentPage }: HeaderProps) {
               className={`mobile-nav-item ${currentPage === 'pv' ? 'mobile-nav-active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
-              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
               PV-Wärmepumpenkalkulator
             </Link>
             <Link
@@ -161,7 +162,7 @@ export default function Header({ currentPage }: HeaderProps) {
               className={`mobile-nav-item ${currentPage === 'pv-investition' ? 'mobile-nav-active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
-              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
               PV-Investitionsrechner
             </Link>
             <Link
@@ -169,7 +170,7 @@ export default function Header({ currentPage }: HeaderProps) {
               className={`mobile-nav-item ${currentPage === 'wp-rechner' ? 'mobile-nav-active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
-              <img src="/aufzaehlung.svg" alt="" className="w-4 h-4" />
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
               WP-Amortisationsrechner
             </Link>
 

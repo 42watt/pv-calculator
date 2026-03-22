@@ -335,6 +335,7 @@ export default function WaermepumpeRechner() {
     <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
       <Header currentPage="wp-rechner" />
 
+      <main>
       {/* Title */}
       <div className="bg-[var(--color--light-blue)] text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
@@ -802,6 +803,7 @@ export default function WaermepumpeRechner() {
           </p>
         </div>
       </div>
+      </main>
 
       <Footer />
     </div>

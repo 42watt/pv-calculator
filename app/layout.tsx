@@ -31,12 +31,21 @@ export const metadata: Metadata = {
     title: "42watt Tools – Rechner für PV, Wärmepumpe & Förderung",
     description:
       "Kostenlose Online-Rechner für Photovoltaik, Wärmepumpe und KfW-Förderung. Berechne Amortisation, Rendite und Einsparpotenzial.",
+    images: [
+      {
+        url: "https://cdn.prod.website-files.com/66bac08ccb78d7417a017bc5/678ebd4b9aa559d5709b2891_logo_blue.svg",
+        width: 600,
+        height: 60,
+        alt: "42watt Tools",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "42watt Tools – Rechner für PV, Wärmepumpe & Förderung",
     description:
       "Kostenlose Online-Rechner für Photovoltaik, Wärmepumpe und KfW-Förderung.",
+    images: ["https://cdn.prod.website-files.com/66bac08ccb78d7417a017bc5/678ebd4b9aa559d5709b2891_logo_blue.svg"],
   },
   robots: {
     index: true,
@@ -113,6 +122,11 @@ export default function RootLayout({
   return (
     <html lang="de">
       <head>
+        <link rel="dns-prefetch" href="https://cdn.cookie-script.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://cdn.cookie-script.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <Script
           src="https://cdn.cookie-script.com/s/36bfe0190baf9d56e43e26cd44e5ecc4.js"
           strategy="beforeInteractive"

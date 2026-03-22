@@ -237,6 +237,7 @@ export default function WaermepumpenFoerderrechner() {
     <div className="min-h-screen bg-[var(--color--light-grey)]">
       <Header currentPage="kfw" />
 
+      <main>
       {/* Title */}
       <div className="max-w-4xl mx-auto pt-8 px-4 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-[var(--color--dark-blue)] mb-2">
@@ -831,6 +832,7 @@ export default function WaermepumpenFoerderrechner() {
           </div>
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );

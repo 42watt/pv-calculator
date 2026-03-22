@@ -32,6 +32,7 @@ export default function Home() {
       />
       <Header currentPage="home" />
 
+      <main>
       {/* Hero Section */}
       <div className="hero-section">
         <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
@@ -172,6 +173,7 @@ export default function Home() {
           </p>
         </div>
       </div>
+      </main>
 
       <Footer />
     </div>
