@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 interface HeaderProps {
-  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'wp-rechner' | 'admin';
+  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'wp-rechner' | 'autarkie' | 'admin';
 }
 
 export default function Header({ currentPage }: HeaderProps) {
@@ -53,16 +53,31 @@ export default function Header({ currentPage }: HeaderProps) {
 
             {/* Dropdown Menu */}
             {toolsOpen && (
-              <div className="tools-dropdown">
+              <div className="tools-dropdown !min-w-[320px]">
+                {/* PV Section */}
+                <div className="px-4 pt-2 pb-1">
+                  <div className="text-[10px] font-semibold text-[var(--color--dark-grey)] uppercase tracking-wider">Photovoltaik</div>
+                </div>
                 <Link
-                  href="/kfw"
-                  className={`dropdown-item ${currentPage === 'kfw' ? 'dropdown-item-active' : ''}`}
+                  href="/pv-investition"
+                  className={`dropdown-item ${currentPage === 'pv-investition' ? 'dropdown-item-active' : ''}`}
                   onClick={() => setToolsOpen(false)}
                 >
                   <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
                   <div>
-                    <div className="text-sm font-semibold text-[var(--color--black)]">KfW Förderrechner</div>
-                    <div className="text-xs text-[var(--color--dark-grey)]">Fördermittel berechnen</div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">PV-Investitionsrechner</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Rendite & Amortisation</div>
+                  </div>
+                </Link>
+                <Link
+                  href="/autarkie-rechner"
+                  className={`dropdown-item ${currentPage === 'autarkie' ? 'dropdown-item-active' : ''}`}
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">Unabhängigkeitsrechner</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Autarkie & Eigenverbrauch</div>
                   </div>
                 </Link>
                 <Link
@@ -72,21 +87,18 @@ export default function Header({ currentPage }: HeaderProps) {
                 >
                   <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
                   <div>
-                    <div className="text-sm font-semibold text-[var(--color--black)]">PV-Wärmepumpenkalkulator</div>
-                    <div className="text-xs text-[var(--color--dark-grey)]">Wirtschaftlichkeit berechnen</div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">PV & Wärmepumpe</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Gesamtsystem Wirtschaftlichkeit</div>
                   </div>
                 </Link>
-                <Link
-                  href="/pv-investition"
-                  className={`dropdown-item ${currentPage === 'pv-investition' ? 'dropdown-item-active' : ''}`}
-                  onClick={() => setToolsOpen(false)}
-                >
-                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
-                  <div>
-                    <div className="text-sm font-semibold text-[var(--color--black)]">PV-Investitionsrechner</div>
-                    <div className="text-xs text-[var(--color--dark-grey)]">PV-Investition bewerten</div>
-                  </div>
-                </Link>
+
+                {/* Divider */}
+                <div className="mx-4 my-1 border-t border-[var(--color--medium-grey)]"></div>
+
+                {/* WP Section */}
+                <div className="px-4 pt-1 pb-1">
+                  <div className="text-[10px] font-semibold text-[var(--color--dark-grey)] uppercase tracking-wider">Wärmepumpe</div>
+                </div>
                 <Link
                   href="/waermepumpe-rechner"
                   className={`dropdown-item ${currentPage === 'wp-rechner' ? 'dropdown-item-active' : ''}`}
@@ -96,6 +108,17 @@ export default function Header({ currentPage }: HeaderProps) {
                   <div>
                     <div className="text-sm font-semibold text-[var(--color--black)]">WP-Amortisationsrechner</div>
                     <div className="text-xs text-[var(--color--dark-grey)]">Wärmepumpe vs. Altsystem</div>
+                  </div>
+                </Link>
+                <Link
+                  href="/kfw"
+                  className={`dropdown-item ${currentPage === 'kfw' ? 'dropdown-item-active' : ''}`}
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">KfW Förderrechner</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Fördermittel berechnen</div>
                   </div>
                 </Link>
               </div>
@@ -138,25 +161,10 @@ export default function Header({ currentPage }: HeaderProps) {
       {menuOpen && (
         <div className="md:hidden border-t border-[var(--color--medium-grey)]">
           <div className="px-4 py-4 space-y-1">
+            {/* PV Section */}
             <div className="text-xs font-semibold text-[var(--color--dark-grey)] uppercase tracking-wider px-3 py-2">
-              Tools
+              Photovoltaik
             </div>
-            <Link
-              href="/kfw"
-              className={`mobile-nav-item ${currentPage === 'kfw' ? 'mobile-nav-active' : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
-              KfW Förderrechner
-            </Link>
-            <Link
-              href="/pv-rechner"
-              className={`mobile-nav-item ${currentPage === 'pv' ? 'mobile-nav-active' : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
-              PV-Wärmepumpenkalkulator
-            </Link>
             <Link
               href="/pv-investition"
               className={`mobile-nav-item ${currentPage === 'pv-investition' ? 'mobile-nav-active' : ''}`}
@@ -166,12 +174,41 @@ export default function Header({ currentPage }: HeaderProps) {
               PV-Investitionsrechner
             </Link>
             <Link
+              href="/autarkie-rechner"
+              className={`mobile-nav-item ${currentPage === 'autarkie' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
+              Unabhängigkeitsrechner
+            </Link>
+            <Link
+              href="/pv-rechner"
+              className={`mobile-nav-item ${currentPage === 'pv' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
+              PV & Wärmepumpe
+            </Link>
+
+            {/* WP Section */}
+            <div className="text-xs font-semibold text-[var(--color--dark-grey)] uppercase tracking-wider px-3 py-2 mt-3">
+              Wärmepumpe
+            </div>
+            <Link
               href="/waermepumpe-rechner"
               className={`mobile-nav-item ${currentPage === 'wp-rechner' ? 'mobile-nav-active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
               <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
               WP-Amortisationsrechner
+            </Link>
+            <Link
+              href="/kfw"
+              className={`mobile-nav-item ${currentPage === 'kfw' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
+              KfW Förderrechner
             </Link>
 
             <div className="pt-3">
