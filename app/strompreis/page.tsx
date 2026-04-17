@@ -65,7 +65,7 @@ export default function Strompreis() {
   useEffect(() => {
     async function fetchPrices() {
       try {
-        const res = await fetch('https://api.energy-charts.info/price?bzn=DE-LU');
+        const res = await fetch('/api/strompreis');
         if (!res.ok) throw new Error('API nicht erreichbar');
         const json = await res.json();
 
