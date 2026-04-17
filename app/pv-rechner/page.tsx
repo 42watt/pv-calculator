@@ -768,6 +768,9 @@ export default function PVRechner() {
         </div>
       </div>
       </main>
+      <div className="text-center py-3 text-xs text-[var(--color--dark-grey)]">
+        Daten & Artikel rund um Photovoltaik: <a href="https://energiefluss24.de" rel="follow" className="hover:underline">energiefluss24.de</a>
+      </div>
       <Footer />
     </div>
   );
