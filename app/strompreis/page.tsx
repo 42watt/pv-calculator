@@ -41,7 +41,8 @@ function PriceBadge({ price }: { price: number }) {
   );
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipProps { active?: boolean; payload?: { value: number }[]; label?: string; }
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (!active || !payload?.length) return null;
   const price = payload[0].value as number;
   return (
@@ -95,8 +96,8 @@ export default function Strompreis() {
 
         setData(points);
         setLastUpdated(new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }));
-      } catch (e: any) {
-        setError(e.message);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Unbekannter Fehler');
       } finally {
         setLoading(false);
       }
@@ -112,7 +113,7 @@ export default function Strompreis() {
     : 0;
 
   // Dot color per point
-  const renderDot = (props: any) => {
+  const renderDot = (props: { cx?: number; cy?: number; payload?: PricePoint }) => {
     const { cx, cy, payload } = props;
     if (!payload.isNow) return <g key={`dot-${cx}-${cy}`} />;
     return (
