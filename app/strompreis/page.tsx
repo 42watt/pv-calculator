@@ -85,6 +85,14 @@ export default function Strompreis() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     async function fetchPrices() {
@@ -215,50 +223,55 @@ export default function Strompreis() {
             </div>
 
             {/* Chart */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-              <h2 className="text-lg font-bold text-[var(--color--dark-blue)] mb-4">
+            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6">
+              <h2 className="text-base sm:text-lg font-bold text-[var(--color--dark-blue)] mb-3 sm:mb-4">
                 Preisverlauf (letzte 48 Stunden)
               </h2>
-              <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis
-                    dataKey="hour"
-                    tick={{ fontSize: 11, fill: '#6b7280' }}
-                    interval={3}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 11, fill: '#6b7280' }}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(v) => `${v} ct`}
-                    width={55}
-                  />
-                  <Tooltip content={<CustomTooltip />} />
-                  <ReferenceLine y={0} stroke="#e5e7eb" strokeDasharray="4 4" />
-                  <ReferenceLine
-                    y={avgPrice}
-                    stroke="#94a3b8"
-                    strokeDasharray="4 4"
-                    label={{ value: 'Ø', position: 'insideTopRight', fontSize: 11, fill: '#94a3b8' }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="price"
-                    stroke="var(--color--light-blue, #3b82f6)"
-                    strokeWidth={2}
-                    dot={renderDot}
-                    activeDot={{ r: 5 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ minHeight: isMobile ? 220 : 280 }}>
+                <ResponsiveContainer width="100%" height={isMobile ? 220 : 280}>
+                  <LineChart
+                    data={data}
+                    margin={{ top: 8, right: isMobile ? 8 : 16, left: isMobile ? -10 : 0, bottom: 0 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis
+                      dataKey="hour"
+                      tick={{ fontSize: isMobile ? 9 : 11, fill: '#6b7280' }}
+                      interval={isMobile ? 7 : 3}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: isMobile ? 9 : 11, fill: '#6b7280' }}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(v) => `${v}`}
+                      width={isMobile ? 32 : 55}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <ReferenceLine y={0} stroke="#e5e7eb" strokeDasharray="4 4" />
+                    <ReferenceLine
+                      y={avgPrice}
+                      stroke="#94a3b8"
+                      strokeDasharray="4 4"
+                      label={{ value: 'Ø', position: 'insideTopRight', fontSize: 10, fill: '#94a3b8' }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="price"
+                      stroke="var(--color--light-blue, #3b82f6)"
+                      strokeWidth={2}
+                      dot={renderDot}
+                      activeDot={{ r: 5 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
 
               {/* Legend */}
-              <div className="flex flex-wrap gap-4 mt-4 text-xs text-[var(--color--dark-grey)]">
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-green-500 inline-block" /> &lt; 5 ct/kWh – günstig</span>
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-amber-500 inline-block" /> 5–15 ct/kWh – mittel</span>
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-red-500 inline-block" /> &gt; 15 ct/kWh – teuer</span>
+              <div className="flex flex-wrap gap-x-3 gap-y-2 mt-4 text-[11px] sm:text-xs text-[var(--color--dark-grey)]">
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-green-500 inline-block" /> &lt; 5 ct – günstig</span>
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" /> 5–15 ct – mittel</span>
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block" /> &gt; 15 ct – teuer</span>
               </div>
             </div>
 
@@ -360,7 +373,7 @@ export default function Strompreis() {
                     <strong>Wichtig:</strong> Netzentgelte, Steuern und Abgaben sind bei jedem Stromtarif fast identisch –
                     sie machen zusammen rund {(FIXED_NET * (1 + VAT)).toFixed(1)} ct/kWh aus. Nur der Börsenpreis schwankt.
                     In günstigen Stunden (z.B. mittags bei Sonne oder nachts bei Wind) liegt dein Gesamtpreis deutlich unter dem Festpreis –
-                    in teuren Stunden darüber. Wer Verbrauch verschieben kann (Wallbox, Wärmepumpe, Spülmaschine, Batterie), spart über's Jahr.
+                    in teuren Stunden darüber. Wer Verbrauch verschieben kann (Wallbox, Wärmepumpe, Spülmaschine, Batterie), spart übers Jahr.
                   </p>
                 </div>
               );
