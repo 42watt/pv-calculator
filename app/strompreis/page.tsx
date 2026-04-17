@@ -280,10 +280,10 @@ export default function Strompreis() {
               const breakdown = calculateEndPrice(currentPoint.price);
               const savings = TYPICAL_FIXED_TARIFF - breakdown.total;
               const segments = [
-                { label: 'Börsenpreis', value: breakdown.spotGross, color: '#3b82f6', description: 'Variabel – schwankt stündlich' },
-                { label: 'Netzentgelte', value: breakdown.gridGross, color: '#64748b', description: 'Netznutzung & Messstellenbetrieb' },
-                { label: 'Steuern & Abgaben', value: breakdown.taxesLeviesGross, color: '#475569', description: 'Stromsteuer, KWK, Konzession' },
-                { label: 'Anbieter', value: breakdown.providerGross, color: '#94a3b8', description: 'Aufschlag des Tarifanbieters' },
+                { label: 'Börsenpreis', value: breakdown.spotGross, color: '#3b82f6', description: 'Variabel – schwankt stündlich', range: null },
+                { label: 'Netzentgelte', value: breakdown.gridGross, color: '#64748b', description: 'Netznutzung & Messstellenbetrieb', range: '5–13 ct/kWh' },
+                { label: 'Steuern & Abgaben', value: breakdown.taxesLeviesGross, color: '#475569', description: 'Stromsteuer, KWK, Konzession', range: null },
+                { label: 'Anbieter', value: breakdown.providerGross, color: '#94a3b8', description: 'Aufschlag des Tarifanbieters', range: null },
               ];
               const totalForBar = segments.reduce((s, seg) => s + seg.value, 0);
 
@@ -331,10 +331,21 @@ export default function Strompreis() {
                         style={{ borderColor: seg.color, backgroundColor: `${seg.color}10` }}
                       >
                         <div className="text-xs text-[var(--color--dark-grey)] mb-1">{seg.label}</div>
-                        <div className="text-2xl font-bold" style={{ color: seg.color }}>
-                          {seg.value.toFixed(2)}
-                        </div>
-                        <div className="text-xs text-[var(--color--dark-grey)] mb-1">ct/kWh</div>
+                        {seg.range ? (
+                          <>
+                            <div className="text-lg font-bold leading-tight" style={{ color: seg.color }}>
+                              {seg.range}
+                            </div>
+                            <div className="text-xs text-[var(--color--dark-grey)] mb-1">ct/kWh</div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="text-2xl font-bold" style={{ color: seg.color }}>
+                              {seg.value.toFixed(2)}
+                            </div>
+                            <div className="text-xs text-[var(--color--dark-grey)] mb-1">ct/kWh</div>
+                          </>
+                        )}
                         <div className="text-xs text-[var(--color--dark-grey)] leading-tight">
                           {seg.description}
                         </div>
@@ -369,11 +380,35 @@ export default function Strompreis() {
                     </div>
                   </div>
 
+                  {/* PLZ-Hinweis */}
+                  <div className="mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-700 mb-0.5">
+                        Netzentgelte variieren je nach Wohnort
+                      </p>
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        Jede Region hat einen eigenen Netzbetreiber – die Netzentgelte liegen deutschlandweit zwischen 5 und 13 ct/kWh.
+                        Steuern, Abgaben und Anbieter-Aufschlag sind dagegen überall gleich.
+                        Für deinen exakten Preis einfach PLZ eingeben.
+                      </p>
+                    </div>
+                    <a
+                      href="https://42watt.checkout.energy/start"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-[var(--color--dark-blue)] hover:opacity-90 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-opacity whitespace-nowrap flex-shrink-0"
+                    >
+                      Preis für meine PLZ
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </a>
+                  </div>
+
                   <p className="text-xs text-[var(--color--dark-grey)] mt-4 leading-relaxed">
-                    <strong>Wichtig:</strong> Netzentgelte, Steuern und Abgaben sind bei jedem Stromtarif fast identisch –
-                    sie machen zusammen rund {(FIXED_NET * (1 + VAT)).toFixed(1)} ct/kWh aus. Nur der Börsenpreis schwankt.
-                    In günstigen Stunden (z.B. mittags bei Sonne oder nachts bei Wind) liegt dein Gesamtpreis deutlich unter dem Festpreis –
-                    in teuren Stunden darüber. Wer Verbrauch verschieben kann (Wallbox, Wärmepumpe, Spülmaschine, Batterie), spart übers Jahr.
+                    <strong>Wie funktioniert das?</strong> Nur der Börsenpreis schwankt stündlich – Netz, Steuern und Abgaben bleiben fix.
+                    In günstigen Stunden (mittags bei Sonne, nachts bei Wind) liegt dein Gesamtpreis deutlich unter dem Festpreis.
+                    Wer Verbrauch verschieben kann (Wallbox, Wärmepumpe, Spülmaschine, Batterie), spart übers Jahr.
                   </p>
                 </div>
               );
