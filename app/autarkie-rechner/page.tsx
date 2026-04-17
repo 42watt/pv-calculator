@@ -654,11 +654,11 @@ export default function AutarkieRechner() {
                 </div>
               </div>
               <div className="mt-4 flex gap-4 text-center">
-                <div className="flex-1 p-3 bg-white bg-opacity-10 rounded-lg">
+                <div className="flex-1 p-3 bg-white/10 rounded-lg">
                   <div className="text-2xl font-bold">{results.co2Saved.toLocaleString('de-DE')}</div>
                   <div className="text-xs opacity-70">kg CO₂ eingespart/Jahr</div>
                 </div>
-                <div className="flex-1 p-3 bg-white bg-opacity-10 rounded-lg">
+                <div className="flex-1 p-3 bg-white/10 rounded-lg">
                   <div className="text-2xl font-bold">{Math.round(results.co2Saved / 1000 * 20 * 10) / 10}</div>
                   <div className="text-xs opacity-70">Tonnen CO₂ in 20 Jahren</div>
                 </div>
