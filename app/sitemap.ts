@@ -2,49 +2,62 @@ import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://tools.42watt.de';
+  const lastModified = new Date('2026-04-17');
 
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+      lastModified,
+      changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${baseUrl}/kfw`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/pv-rechner`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/pv-investition`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/waermepumpe-rechner`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/autarkie-rechner`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/strompreis`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/impressum`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'yearly',
-      priority: 0.3,
+      priority: 0.2,
     },
     {
       url: `${baseUrl}/datenschutz`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'yearly',
-      priority: 0.3,
+      priority: 0.2,
     },
   ];
 }

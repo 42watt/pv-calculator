@@ -4,14 +4,14 @@ import Link from 'next/link';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-const homeSchema = {
+const collectionSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   '@id': 'https://tools.42watt.de/#collection',
   url: 'https://tools.42watt.de',
-  name: '42watt Tools – Rechner für PV, Wärmepumpe & Förderung',
+  name: '42watt Tools – Rechner für Photovoltaik, Wärmepumpe & KfW-Förderung',
   description:
-    'Kostenlose Online-Rechner für Photovoltaik, Wärmepumpe und KfW-Förderung.',
+    'Kostenlose Online-Rechner für Photovoltaik, Wärmepumpe, Autarkie, Strompreis und KfW-Förderung.',
   publisher: { '@id': 'https://www.42watt.de/#organization' },
   inLanguage: 'de-DE',
   isPartOf: { '@id': 'https://tools.42watt.de/#website' },
@@ -21,6 +21,22 @@ const homeSchema = {
     { '@type': 'SoftwareApplication', name: 'PV-Investitionsrechner', url: 'https://tools.42watt.de/pv-investition' },
     { '@type': 'SoftwareApplication', name: 'Wärmepumpen-Amortisationsrechner', url: 'https://tools.42watt.de/waermepumpe-rechner' },
     { '@type': 'SoftwareApplication', name: 'PV-Unabhängigkeitsrechner', url: 'https://tools.42watt.de/autarkie-rechner' },
+    { '@type': 'SoftwareApplication', name: 'Börsenstrompreis live', url: 'https://tools.42watt.de/strompreis' },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': 'https://tools.42watt.de/#tools-list',
+  name: '42watt Energierechner',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, url: 'https://tools.42watt.de/pv-investition', name: 'PV-Investitionsrechner' },
+    { '@type': 'ListItem', position: 2, url: 'https://tools.42watt.de/autarkie-rechner', name: 'PV-Unabhängigkeitsrechner' },
+    { '@type': 'ListItem', position: 3, url: 'https://tools.42watt.de/pv-rechner', name: 'PV & Wärmepumpe Rechner' },
+    { '@type': 'ListItem', position: 4, url: 'https://tools.42watt.de/waermepumpe-rechner', name: 'Wärmepumpen-Amortisationsrechner' },
+    { '@type': 'ListItem', position: 5, url: 'https://tools.42watt.de/kfw', name: 'KfW Förderrechner' },
+    { '@type': 'ListItem', position: 6, url: 'https://tools.42watt.de/strompreis', name: 'Börsenstrompreis live' },
   ],
 };
 
@@ -117,7 +133,7 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([collectionSchema, itemListSchema]) }}
       />
       <Header currentPage="home" />
 
@@ -239,7 +255,7 @@ export default function Home() {
             </svg>
           </div>
           <p className="disclaimer-text">
-            Die hier angebotenen Tools sind ein freiwilliger Service der 42watt GmbH und befinden sich aktuell im Prototyp-Stadium. Die Berechnungen dienen ausschließlich der unverbindlichen Orientierung. Für die Richtigkeit, Vollständigkeit und Aktualität der Ergebnisse übernehmen wir keine Haftung.
+            Die hier angebotenen Tools sind ein freiwilliger Service der Enovato GmbH (42watt) und befinden sich aktuell im Prototyp-Stadium. Die Berechnungen dienen ausschließlich der unverbindlichen Orientierung. Für die Richtigkeit, Vollständigkeit und Aktualität der Ergebnisse übernehmen wir keine Haftung.
           </p>
         </div>
       </div>

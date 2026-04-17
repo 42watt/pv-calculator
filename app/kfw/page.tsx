@@ -492,7 +492,7 @@ export default function WaermepumpenFoerderrechner() {
           {/* Disclaimer */}
           <div className="mt-6 p-4 bg-[var(--color--light-grey)] rounded-lg text-center text-sm text-[var(--color--dark-grey)]">
             Alle Angaben ohne Gewähr. Der Förderrechner ist ein freiwilliger und unverbindlicher
-            Service der 42watt GmbH.
+            Service der Enovato GmbH (42watt).
           </div>
         </div>
 
