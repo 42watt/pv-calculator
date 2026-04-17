@@ -24,32 +24,43 @@ const homeSchema = {
   ],
 };
 
-function ToolCard({ href, icon, title, description }: {
+function ToolCard({ href, icon, title, description, external }: {
   href: string;
   icon: React.ReactNode;
   title: string;
   description: string;
+  external?: boolean;
 }) {
+  const inner = (
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        <div className="tool-icon tool-icon-active">
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors">
+            {title}
+          </h3>
+          <p className="text-sm text-[var(--color--dark-grey)]">
+            {description}
+          </p>
+        </div>
+      </div>
+      <svg className="w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  );
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className="tool-card group">
+        {inner}
+      </a>
+    );
+  }
   return (
     <Link href={href} className="tool-card group">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="tool-icon tool-icon-active">
-            {icon}
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors">
-              {title}
-            </h3>
-            <p className="text-sm text-[var(--color--dark-grey)]">
-              {description}
-            </p>
-          </div>
-        </div>
-        <svg className="w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
+      {inner}
     </Link>
   );
 }
@@ -84,6 +95,11 @@ const icons = {
   bolt: (
     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+  ),
+  zap: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
   ),
 };
@@ -177,6 +193,25 @@ export default function Home() {
               icon={icons.money}
               title="KfW Förderrechner"
               description="Staatliche Förderung berechnen"
+            />
+          </div>
+        </div>
+
+        {/* ── Stromtarif ── */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color--light-blue)] bg-opacity-10 flex items-center justify-center text-[var(--color--light-blue)]">
+              {icons.bolt}
+            </div>
+            <h2 className="text-xl font-bold text-[var(--color--black)]">Stromtarif</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ToolCard
+              href="https://42watt.checkout.energy/start"
+              icon={icons.zap}
+              title="Dynamischer Stromtarif"
+              description="Strom zum Börsenstrompreis – ideal mit PV & Wärmepumpe"
+              external
             />
           </div>
         </div>
