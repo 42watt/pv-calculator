@@ -115,7 +115,7 @@ export default function Strompreis() {
   // Dot color per point
   const renderDot = (props: { cx?: number; cy?: number; payload?: PricePoint }) => {
     const { cx, cy, payload } = props;
-    if (!payload.isNow) return <g key={`dot-${cx}-${cy}`} />;
+    if (!payload?.isNow) return <g key={`dot-${cx}-${cy}`} />;
     return (
       <circle
         key={`dot-now-${cx}`}
