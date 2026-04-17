@@ -24,42 +24,50 @@ const homeSchema = {
   ],
 };
 
-function ToolCard({ href, icon, title, description, external }: {
+function ToolCard({ href, icon, title, description, external, yellow }: {
   href: string;
   icon: React.ReactNode;
   title: string;
   description: string;
   external?: boolean;
+  yellow?: boolean;
 }) {
+  const cardClass = yellow
+    ? 'tool-card group border-amber-300 bg-amber-50 hover:bg-amber-100'
+    : 'tool-card group';
+  const titleClass = yellow
+    ? 'text-lg font-semibold text-amber-800 group-hover:text-amber-600 transition-colors'
+    : 'text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors';
+  const arrowClass = yellow
+    ? 'w-5 h-5 text-amber-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all flex-shrink-0'
+    : 'w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all flex-shrink-0';
+  const iconClass = yellow ? 'tool-icon' : 'tool-icon tool-icon-active';
+
   const inner = (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="tool-icon tool-icon-active">
+        <div className={iconClass} style={yellow ? { background: '#fef3c7', color: '#d97706' } : undefined}>
           {icon}
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors">
-            {title}
-          </h3>
-          <p className="text-sm text-[var(--color--dark-grey)]">
-            {description}
-          </p>
+          <h3 className={titleClass}>{title}</h3>
+          <p className="text-sm text-[var(--color--dark-grey)]">{description}</p>
         </div>
       </div>
-      <svg className="w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={arrowClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </div>
   );
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="tool-card group">
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cardClass}>
         {inner}
       </a>
     );
   }
   return (
-    <Link href={href} className="tool-card group">
+    <Link href={href} className={cardClass}>
       {inner}
     </Link>
   );
@@ -200,18 +208,25 @@ export default function Home() {
         {/* ── Stromtarif ── */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color--light-blue)] bg-opacity-10 flex items-center justify-center text-[var(--color--light-blue)]">
+            <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500">
               {icons.bolt}
             </div>
             <h2 className="text-xl font-bold text-[var(--color--black)]">Stromtarif</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ToolCard
-              href="https://42watt.checkout.energy/start"
+              href="/strompreis"
               icon={icons.zap}
+              title="Börsenstrompreis live"
+              description="Aktuelle Spotmarktpreise im Stundenchart"
+            />
+            <ToolCard
+              href="https://42watt.checkout.energy/start"
+              icon={icons.bolt}
               title="Dynamischer Stromtarif"
               description="Strom zum Börsenstrompreis – ideal mit PV & Wärmepumpe"
               external
+              yellow
             />
           </div>
         </div>
