@@ -41,6 +41,30 @@ function PriceBadge({ price }: { price: number }) {
   );
 }
 
+// Typische Preisbestandteile für Haushaltskunden in Deutschland (netto, ct/kWh)
+// Quellen: BNetzA Monitoringbericht, BDEW Strompreisanalyse
+const PRICE_COMPONENTS = {
+  grid: 10.3,        // Netzentgelte + Messstellenbetrieb
+  taxes: 2.05,       // Stromsteuer
+  levies: 1.8,       // §19 NEV, KWK, Offshore, Konzessionsabgabe
+  providerMargin: 1.5, // Anbieter-Aufschlag dynamischer Tarif
+};
+const VAT = 0.19;
+const FIXED_NET = PRICE_COMPONENTS.grid + PRICE_COMPONENTS.taxes + PRICE_COMPONENTS.levies + PRICE_COMPONENTS.providerMargin;
+const TYPICAL_FIXED_TARIFF = 34; // ct/kWh brutto (Durchschnitt Festpreis 2025)
+
+function calculateEndPrice(spotPriceCtKwh: number) {
+  const netTotal = spotPriceCtKwh + FIXED_NET;
+  const grossTotal = netTotal * (1 + VAT);
+  return {
+    spotGross: spotPriceCtKwh * (1 + VAT),
+    gridGross: PRICE_COMPONENTS.grid * (1 + VAT),
+    taxesLeviesGross: (PRICE_COMPONENTS.taxes + PRICE_COMPONENTS.levies) * (1 + VAT),
+    providerGross: PRICE_COMPONENTS.providerMargin * (1 + VAT),
+    total: grossTotal,
+  };
+}
+
 interface TooltipProps { active?: boolean; payload?: { value: number }[]; label?: string; }
 const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (!active || !payload?.length) return null;
@@ -237,6 +261,110 @@ export default function Strompreis() {
                 <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-red-500 inline-block" /> &gt; 15 ct/kWh – teuer</span>
               </div>
             </div>
+
+            {/* Preiszusammensetzung */}
+            {(() => {
+              const breakdown = calculateEndPrice(currentPoint.price);
+              const savings = TYPICAL_FIXED_TARIFF - breakdown.total;
+              const segments = [
+                { label: 'Börsenpreis', value: breakdown.spotGross, color: '#3b82f6', description: 'Variabel – schwankt stündlich' },
+                { label: 'Netzentgelte', value: breakdown.gridGross, color: '#64748b', description: 'Netznutzung & Messstellenbetrieb' },
+                { label: 'Steuern & Abgaben', value: breakdown.taxesLeviesGross, color: '#475569', description: 'Stromsteuer, KWK, Konzession' },
+                { label: 'Anbieter', value: breakdown.providerGross, color: '#94a3b8', description: 'Aufschlag des Tarifanbieters' },
+              ];
+              const totalForBar = segments.reduce((s, seg) => s + seg.value, 0);
+
+              return (
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                  <h2 className="text-lg font-bold text-[var(--color--dark-blue)] mb-1">
+                    So setzt sich dein Endkundenpreis zusammen
+                  </h2>
+                  <p className="text-sm text-[var(--color--dark-grey)] mb-5">
+                    Der Börsenpreis ist nur ein Teil. Netz, Steuern, Abgaben und der Anbieter kommen dazu – plus 19% Mehrwertsteuer.
+                  </p>
+
+                  {/* Stacked Bar */}
+                  <div className="mb-2">
+                    <div className="flex h-12 w-full rounded-lg overflow-hidden shadow-sm">
+                      {segments.map((seg) => (
+                        <div
+                          key={seg.label}
+                          className="flex items-center justify-center text-white text-xs font-semibold transition-all"
+                          style={{
+                            width: `${(seg.value / totalForBar) * 100}%`,
+                            backgroundColor: seg.color,
+                            minWidth: '40px',
+                          }}
+                          title={`${seg.label}: ${seg.value.toFixed(2)} ct/kWh`}
+                        >
+                          {((seg.value / totalForBar) * 100).toFixed(0)}%
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-between text-xs text-[var(--color--dark-grey)] mt-1">
+                      <span>0 ct</span>
+                      <span className="font-bold text-[var(--color--dark-blue)]">
+                        Gesamt: {breakdown.total.toFixed(1)} ct/kWh
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Component Cards */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+                    {segments.map((seg) => (
+                      <div
+                        key={seg.label}
+                        className="p-4 rounded-xl border-l-4"
+                        style={{ borderColor: seg.color, backgroundColor: `${seg.color}10` }}
+                      >
+                        <div className="text-xs text-[var(--color--dark-grey)] mb-1">{seg.label}</div>
+                        <div className="text-2xl font-bold" style={{ color: seg.color }}>
+                          {seg.value.toFixed(2)}
+                        </div>
+                        <div className="text-xs text-[var(--color--dark-grey)] mb-1">ct/kWh</div>
+                        <div className="text-xs text-[var(--color--dark-grey)] leading-tight">
+                          {seg.description}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Vergleich Festpreis */}
+                  <div className="mt-6 p-5 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-100">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                      <div>
+                        <div className="text-sm text-[var(--color--dark-grey)] mb-1">Dein Preis aktuell (dynamisch)</div>
+                        <div className="text-3xl font-bold text-[var(--color--dark-blue)]">
+                          {breakdown.total.toFixed(1)} <span className="text-lg">ct/kWh</span>
+                        </div>
+                      </div>
+                      <div className="hidden md:block text-2xl text-[var(--color--dark-grey)]">vs.</div>
+                      <div>
+                        <div className="text-sm text-[var(--color--dark-grey)] mb-1">Durchschnitt Festpreis</div>
+                        <div className="text-3xl font-bold text-gray-400 line-through decoration-2">
+                          {TYPICAL_FIXED_TARIFF.toFixed(1)} <span className="text-lg">ct/kWh</span>
+                        </div>
+                      </div>
+                      <div className={`p-3 rounded-lg text-center ${savings > 0 ? 'bg-green-100' : 'bg-red-100'}`}>
+                        <div className={`text-xs font-semibold mb-0.5 ${savings > 0 ? 'text-green-700' : 'text-red-700'}`}>
+                          {savings > 0 ? 'Du sparst gerade' : 'Aktuell teurer'}
+                        </div>
+                        <div className={`text-xl font-bold ${savings > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {savings > 0 ? '−' : '+'}{Math.abs(savings).toFixed(1)} ct/kWh
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-[var(--color--dark-grey)] mt-4 leading-relaxed">
+                    <strong>Wichtig:</strong> Netzentgelte, Steuern und Abgaben sind bei jedem Stromtarif fast identisch –
+                    sie machen zusammen rund {(FIXED_NET * (1 + VAT)).toFixed(1)} ct/kWh aus. Nur der Börsenpreis schwankt.
+                    In günstigen Stunden (z.B. mittags bei Sonne oder nachts bei Wind) liegt dein Gesamtpreis deutlich unter dem Festpreis –
+                    in teuren Stunden darüber. Wer Verbrauch verschieben kann (Wallbox, Wärmepumpe, Spülmaschine, Batterie), spart über's Jahr.
+                  </p>
+                </div>
+              );
+            })()}
 
             {/* Hinweis dynamischer Tarif */}
             <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6">
