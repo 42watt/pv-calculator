@@ -49,14 +49,14 @@ function ToolCard({ href, icon, title, description, external, yellow }: {
   yellow?: boolean;
 }) {
   const cardClass = yellow
-    ? 'tool-card group border-amber-300 bg-amber-50 hover:bg-amber-100'
+    ? 'tool-card group bg-amber-50'
     : 'tool-card group';
   const titleClass = yellow
-    ? 'text-lg font-semibold text-amber-800 group-hover:text-amber-600 transition-colors'
-    : 'text-lg font-semibold text-[var(--color--black)] group-hover:text-[var(--color--light-blue)] transition-colors';
+    ? 'text-base font-semibold text-amber-800 group-hover:text-amber-600 transition-colors'
+    : 'text-base font-semibold text-[var(--color--black)] group-hover:text-[var(--w-blue)] transition-colors';
   const arrowClass = yellow
-    ? 'w-5 h-5 text-amber-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all flex-shrink-0'
-    : 'w-5 h-5 text-[var(--color--dark-grey)] group-hover:text-[var(--color--light-blue)] group-hover:translate-x-1 transition-all flex-shrink-0';
+    ? 'w-4 h-4 text-amber-400 group-hover:text-amber-600 transition-colors flex-shrink-0'
+    : 'w-4 h-4 text-[var(--color--medium-grey)] group-hover:text-[var(--w-blue)] transition-colors flex-shrink-0';
   const iconClass = yellow ? 'tool-icon' : 'tool-icon tool-icon-active';
 
   const inner = (
@@ -130,7 +130,7 @@ const icons = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--w-surface)' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify([collectionSchema, itemListSchema]) }}
@@ -140,12 +140,12 @@ export default function Home() {
       <main>
       {/* Hero Section */}
       <div className="hero-section">
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 py-14 md:py-20">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-[var(--color--black)] leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl font-light text-white leading-tight mb-5" style={{ fontWeight: 300 }}>
               Deine Energie,<br />intelligent geplant
             </h1>
-            <p className="text-lg md:text-xl text-[var(--color--dark-grey)] mb-8 max-w-2xl leading-relaxed">
+            <p className="text-lg text-white/80 mb-8 max-w-2xl leading-relaxed">
               Finde heraus, wie du mit Wärmepumpe, PV-Anlage und Fördermitteln
               das Maximum aus deiner Energiewende herausholst.
             </p>
@@ -153,7 +153,7 @@ export default function Home() {
               href="https://www.42watt.de/warmepumpe-v3?utm_source=tools42watt&utm_medium=tools42watt&utm_campaign=hero_cta"
               target="_blank"
               rel="noopener noreferrer"
-              className="cta-button text-base"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[var(--w-blue)] text-sm font-semibold transition-opacity hover:opacity-90"
             >
               Jetzt Angebot einholen
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,15 +165,12 @@ export default function Home() {
       </div>
 
       {/* Tools Section */}
-      <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 pt-10 pb-16">
 
         {/* ── Photovoltaik ── */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color--light-blue)] bg-opacity-10 flex items-center justify-center text-[var(--color--light-blue)]">
-              {icons.sun}
-            </div>
-            <h2 className="text-xl font-bold text-[var(--color--black)]">Photovoltaik</h2>
+            <h2 className="text-xs font-semibold tracking-widest uppercase text-[var(--w-tech-grey)]">Photovoltaik</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ToolCard
@@ -200,10 +197,7 @@ export default function Home() {
         {/* ── Wärmepumpe ── */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color--green)] bg-opacity-10 flex items-center justify-center text-[var(--color--green)]">
-              {icons.home}
-            </div>
-            <h2 className="text-xl font-bold text-[var(--color--black)]">Wärmepumpe</h2>
+            <h2 className="text-xs font-semibold tracking-widest uppercase text-[var(--w-tech-grey)]">Wärmepumpe</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ToolCard
@@ -224,10 +218,7 @@ export default function Home() {
         {/* ── Stromtarif ── */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500">
-              {icons.bolt}
-            </div>
-            <h2 className="text-xl font-bold text-[var(--color--black)]">Stromtarif</h2>
+            <h2 className="text-xs font-semibold tracking-widest uppercase text-[var(--w-tech-grey)]">Stromtarif</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ToolCard

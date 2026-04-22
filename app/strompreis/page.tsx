@@ -33,7 +33,7 @@ function PriceBadge({ price }: { price: number }) {
   const label = price < 0 ? 'Negativ' : price < 5 ? 'Günstig' : price < 15 ? 'Mittel' : 'Teuer';
   return (
     <span
-      className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full text-white"
+      className="inline-block text-xs font-semibold px-2 py-0.5 text-white"
       style={{ backgroundColor: color }}
     >
       {label}
@@ -70,8 +70,8 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (!active || !payload?.length) return null;
   const price = payload[0].value as number;
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
-      <p className="font-semibold text-gray-700 mb-1">{label} Uhr</p>
+    <div className="bg-[var(--w-surface)] border border-[var(--w-border)] p-3 text-sm">
+      <p className="font-semibold text-[#222222] mb-1">{label} Uhr</p>
       <p className="font-bold text-lg" style={{ color: priceColor(price) }}>
         {price.toFixed(2)} ct/kWh
       </p>
@@ -162,27 +162,27 @@ export default function Strompreis() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
+    <div className="min-h-screen bg-[var(--w-surface)] flex flex-col">
       <Header />
       <main className="flex-1 max-w-4xl mx-auto px-4 py-8 w-full">
 
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-[var(--color--dark-blue)] mb-1">
+          <h1 className="text-3xl font-light text-[#222222] mb-1">
             Aktueller Börsenstrompreis
           </h1>
-          <p className="text-[var(--color--dark-grey)] text-sm">
+          <p className="text-[#222222] text-sm opacity-60">
             Day-ahead Spotmarktpreise für Deutschland · Bidding Zone DE-LU
           </p>
         </div>
 
         {loading && (
-          <div className="bg-white rounded-2xl shadow-lg p-12 flex items-center justify-center">
-            <div className="text-[var(--color--dark-grey)]">Preise werden geladen…</div>
+          <div className="border border-[var(--w-border)] bg-white p-12 flex items-center justify-center">
+            <div className="text-[#222222] opacity-60">Preise werden geladen…</div>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-700">
+          <div className="bg-red-50 border border-red-200 p-6 text-red-700">
             Fehler beim Laden: {error}
           </div>
         )}
@@ -191,40 +191,40 @@ export default function Strompreis() {
           <>
             {/* Current price hero */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-              <div className="bg-white rounded-2xl shadow-lg p-6 sm:col-span-1 flex flex-col items-center justify-center text-center">
-                <div className="text-sm text-[var(--color--dark-grey)] mb-1">Aktuell ({currentPoint.hour} Uhr)</div>
+              <div className="border border-[var(--w-border)] bg-white p-6 sm:col-span-1 flex flex-col items-center justify-center text-center">
+                <div className="text-sm text-[#222222] opacity-60 mb-1">Aktuell ({currentPoint.hour} Uhr)</div>
                 <div
                   className="text-5xl font-bold mb-2"
                   style={{ color: priceColor(currentPoint.price) }}
                 >
                   {currentPoint.price.toFixed(2)}
                 </div>
-                <div className="text-[var(--color--dark-grey)] text-sm mb-3">ct/kWh</div>
+                <div className="text-[#222222] opacity-60 text-sm mb-3">ct/kWh</div>
                 <PriceBadge price={currentPoint.price} />
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg p-6 sm:col-span-2 grid grid-cols-3 gap-4 items-center">
+              <div className="border border-[var(--w-border)] bg-white p-6 sm:col-span-2 grid grid-cols-3 gap-4 items-center">
                 <div className="text-center">
-                  <div className="text-xs text-[var(--color--dark-grey)] mb-1">Minimum (48h)</div>
+                  <div className="text-xs text-[#222222] opacity-60 mb-1">Minimum (48h)</div>
                   <div className="text-2xl font-bold text-green-500">{minPrice.toFixed(2)}</div>
-                  <div className="text-xs text-[var(--color--dark-grey)]">ct/kWh</div>
+                  <div className="text-xs text-[#222222] opacity-60">ct/kWh</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-[var(--color--dark-grey)] mb-1">Durchschnitt</div>
-                  <div className="text-2xl font-bold text-[var(--color--dark-blue)]">{avgPrice.toFixed(2)}</div>
-                  <div className="text-xs text-[var(--color--dark-grey)]">ct/kWh</div>
+                  <div className="text-xs text-[#222222] opacity-60 mb-1">Durchschnitt</div>
+                  <div className="text-2xl font-bold text-[var(--w-blue)]">{avgPrice.toFixed(2)}</div>
+                  <div className="text-xs text-[#222222] opacity-60">ct/kWh</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-[var(--color--dark-grey)] mb-1">Maximum (48h)</div>
+                  <div className="text-xs text-[#222222] opacity-60 mb-1">Maximum (48h)</div>
                   <div className="text-2xl font-bold text-red-500">{maxPrice.toFixed(2)}</div>
-                  <div className="text-xs text-[var(--color--dark-grey)]">ct/kWh</div>
+                  <div className="text-xs text-[#222222] opacity-60">ct/kWh</div>
                 </div>
               </div>
             </div>
 
             {/* Chart */}
-            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6">
-              <h2 className="text-base sm:text-lg font-bold text-[var(--color--dark-blue)] mb-3 sm:mb-4">
+            <div className="border border-[var(--w-border)] bg-white p-4 sm:p-6 mb-6">
+              <h2 className="text-base sm:text-lg font-light text-[#222222] mb-3 sm:mb-4">
                 Preisverlauf (letzte 48 Stunden)
               </h2>
               <div className="w-full" style={{ minHeight: isMobile ? 220 : 280 }}>
@@ -258,7 +258,7 @@ export default function Strompreis() {
                     <Line
                       type="monotone"
                       dataKey="price"
-                      stroke="var(--color--light-blue, #3b82f6)"
+                      stroke="var(--w-blue, #3445FF)"
                       strokeWidth={2}
                       dot={renderDot}
                       activeDot={{ r: 5 }}
@@ -268,10 +268,10 @@ export default function Strompreis() {
               </div>
 
               {/* Legend */}
-              <div className="flex flex-wrap gap-x-3 gap-y-2 mt-4 text-[11px] sm:text-xs text-[var(--color--dark-grey)]">
-                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-green-500 inline-block" /> &lt; 5 ct – günstig</span>
-                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" /> 5–15 ct – mittel</span>
-                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block" /> &gt; 15 ct – teuer</span>
+              <div className="flex flex-wrap gap-x-3 gap-y-2 mt-4 text-[11px] sm:text-xs text-[#222222] opacity-60">
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-green-500 inline-block" /> &lt; 5 ct – günstig</span>
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-amber-500 inline-block" /> 5–15 ct – mittel</span>
+                <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-red-500 inline-block" /> &gt; 15 ct – teuer</span>
               </div>
             </div>
 
@@ -280,7 +280,7 @@ export default function Strompreis() {
               const breakdown = calculateEndPrice(currentPoint.price);
               const savings = TYPICAL_FIXED_TARIFF - breakdown.total;
               const segments = [
-                { label: 'Börsenpreis', value: breakdown.spotGross, color: '#3b82f6', description: 'Variabel – schwankt stündlich', range: null },
+                { label: 'Börsenpreis', value: breakdown.spotGross, color: '#3445FF', description: 'Variabel – schwankt stündlich', range: null },
                 { label: 'Netzentgelte', value: breakdown.gridGross, color: '#64748b', description: 'Netznutzung & Messstellenbetrieb', range: '5–13 ct/kWh' },
                 { label: 'Steuern & Abgaben', value: breakdown.taxesLeviesGross, color: '#475569', description: 'Stromsteuer, KWK, Konzession', range: null },
                 { label: 'Anbieter', value: breakdown.providerGross, color: '#94a3b8', description: 'Aufschlag des Tarifanbieters', range: null },
@@ -288,17 +288,17 @@ export default function Strompreis() {
               const totalForBar = segments.reduce((s, seg) => s + seg.value, 0);
 
               return (
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                  <h2 className="text-lg font-bold text-[var(--color--dark-blue)] mb-1">
+                <div className="border border-[var(--w-border)] bg-white p-6 mb-6">
+                  <h2 className="text-lg font-light text-[#222222] mb-1">
                     So setzt sich dein Endkundenpreis zusammen
                   </h2>
-                  <p className="text-sm text-[var(--color--dark-grey)] mb-5">
+                  <p className="text-sm text-[#222222] opacity-60 mb-5">
                     Der Börsenpreis ist nur ein Teil. Netz, Steuern, Abgaben und der Anbieter kommen dazu – plus 19% Mehrwertsteuer.
                   </p>
 
                   {/* Stacked Bar */}
                   <div className="mb-2">
-                    <div className="flex h-12 w-full rounded-lg overflow-hidden shadow-sm">
+                    <div className="flex h-12 w-full overflow-hidden">
                       {segments.map((seg) => (
                         <div
                           key={seg.label}
@@ -314,9 +314,9 @@ export default function Strompreis() {
                         </div>
                       ))}
                     </div>
-                    <div className="flex justify-between text-xs text-[var(--color--dark-grey)] mt-1">
-                      <span>0 ct</span>
-                      <span className="font-bold text-[var(--color--dark-blue)]">
+                    <div className="flex justify-between text-xs text-[#222222] mt-1">
+                      <span className="opacity-60">0 ct</span>
+                      <span className="font-bold text-[#222222]">
                         Gesamt: {breakdown.total.toFixed(1)} ct/kWh
                       </span>
                     </div>
@@ -327,26 +327,26 @@ export default function Strompreis() {
                     {segments.map((seg) => (
                       <div
                         key={seg.label}
-                        className="p-4 rounded-xl border-l-4"
+                        className="p-4 border-l-4"
                         style={{ borderColor: seg.color, backgroundColor: `${seg.color}10` }}
                       >
-                        <div className="text-xs text-[var(--color--dark-grey)] mb-1">{seg.label}</div>
+                        <div className="text-xs text-[#222222] opacity-60 mb-1">{seg.label}</div>
                         {seg.range ? (
                           <>
                             <div className="text-lg font-bold leading-tight" style={{ color: seg.color }}>
                               {seg.range}
                             </div>
-                            <div className="text-xs text-[var(--color--dark-grey)] mb-1">ct/kWh</div>
+                            <div className="text-xs text-[#222222] opacity-60 mb-1">ct/kWh</div>
                           </>
                         ) : (
                           <>
                             <div className="text-2xl font-bold" style={{ color: seg.color }}>
                               {seg.value.toFixed(2)}
                             </div>
-                            <div className="text-xs text-[var(--color--dark-grey)] mb-1">ct/kWh</div>
+                            <div className="text-xs text-[#222222] opacity-60 mb-1">ct/kWh</div>
                           </>
                         )}
-                        <div className="text-xs text-[var(--color--dark-grey)] leading-tight">
+                        <div className="text-xs text-[#222222] opacity-60 leading-tight">
                           {seg.description}
                         </div>
                       </div>
@@ -354,22 +354,22 @@ export default function Strompreis() {
                   </div>
 
                   {/* Vergleich Festpreis */}
-                  <div className="mt-6 p-5 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-100">
+                  <div className="mt-6 p-5 bg-blue-50 border border-blue-100">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <div>
-                        <div className="text-sm text-[var(--color--dark-grey)] mb-1">Dein Preis aktuell (dynamisch)</div>
-                        <div className="text-3xl font-bold text-[var(--color--dark-blue)]">
+                        <div className="text-sm text-[#222222] opacity-60 mb-1">Dein Preis aktuell (dynamisch)</div>
+                        <div className="text-3xl font-bold text-[#222222]">
                           {breakdown.total.toFixed(1)} <span className="text-lg">ct/kWh</span>
                         </div>
                       </div>
-                      <div className="hidden md:block text-2xl text-[var(--color--dark-grey)]">vs.</div>
+                      <div className="hidden md:block text-2xl text-[#222222] opacity-40">vs.</div>
                       <div>
-                        <div className="text-sm text-[var(--color--dark-grey)] mb-1">Durchschnitt Festpreis</div>
+                        <div className="text-sm text-[#222222] opacity-60 mb-1">Durchschnitt Festpreis</div>
                         <div className="text-3xl font-bold text-gray-400 line-through decoration-2">
                           {TYPICAL_FIXED_TARIFF.toFixed(1)} <span className="text-lg">ct/kWh</span>
                         </div>
                       </div>
-                      <div className={`p-3 rounded-lg text-center ${savings > 0 ? 'bg-green-100' : 'bg-red-100'}`}>
+                      <div className={`p-3 text-center ${savings > 0 ? 'bg-green-100' : 'bg-red-100'}`}>
                         <div className={`text-xs font-semibold mb-0.5 ${savings > 0 ? 'text-green-700' : 'text-red-700'}`}>
                           {savings > 0 ? 'Du sparst gerade' : 'Aktuell teurer'}
                         </div>
@@ -381,12 +381,12 @@ export default function Strompreis() {
                   </div>
 
                   {/* PLZ-Hinweis */}
-                  <div className="mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="mt-5 p-4 border border-[var(--w-border)] bg-[var(--w-surface)] flex flex-col sm:flex-row sm:items-center gap-3">
                     <div className="flex-1">
-                      <p className="text-sm font-semibold text-slate-700 mb-0.5">
+                      <p className="text-sm font-medium text-[#222222] mb-0.5">
                         Netzentgelte variieren je nach Wohnort
                       </p>
-                      <p className="text-xs text-slate-500 leading-relaxed">
+                      <p className="text-xs text-[#222222] opacity-60 leading-relaxed">
                         Jede Region hat einen eigenen Netzbetreiber – die Netzentgelte liegen deutschlandweit zwischen 5 und 13 ct/kWh.
                         Steuern, Abgaben und Anbieter-Aufschlag sind dagegen überall gleich.
                         Für deinen exakten Preis einfach PLZ eingeben.
@@ -396,7 +396,7 @@ export default function Strompreis() {
                       href="https://42watt.checkout.energy/start"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-[var(--color--dark-blue)] hover:opacity-90 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-opacity whitespace-nowrap flex-shrink-0"
+                      className="inline-flex items-center gap-2 bg-[var(--w-blue)] hover:opacity-90 text-white font-semibold text-sm px-4 py-2.5 transition-opacity whitespace-nowrap flex-shrink-0"
                     >
                       Preis für meine PLZ
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -405,7 +405,7 @@ export default function Strompreis() {
                     </a>
                   </div>
 
-                  <p className="text-xs text-[var(--color--dark-grey)] mt-4 leading-relaxed">
+                  <p className="text-xs text-[#222222] opacity-60 mt-4 leading-relaxed">
                     <strong>Wie funktioniert das?</strong> Nur der Börsenpreis schwankt stündlich – Netz, Steuern und Abgaben bleiben fix.
                     In günstigen Stunden (mittags bei Sonne, nachts bei Wind) liegt dein Gesamtpreis deutlich unter dem Festpreis.
                     Wer Verbrauch verschieben kann (Wallbox, Wärmepumpe, Spülmaschine, Batterie), spart übers Jahr.
@@ -415,8 +415,8 @@ export default function Strompreis() {
             })()}
 
             {/* Hinweis dynamischer Tarif */}
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6">
-              <h3 className="font-bold text-amber-800 mb-1">Mit dynamischem Stromtarif sparen</h3>
+            <div className="border border-amber-200 bg-amber-50 p-5 mb-6">
+              <h3 className="font-medium text-amber-800 mb-1">Mit dynamischem Stromtarif sparen</h3>
               <p className="text-sm text-amber-700 mb-3">
                 Wer einen dynamischen Tarif hat, zahlt den Börsenpreis direkt – und kann gezielt in günstigen Stunden laden und verbrauchen. Besonders in Kombination mit PV-Anlage, Batterie oder Wärmepumpe lohnt sich das.
               </p>
@@ -424,7 +424,7 @@ export default function Strompreis() {
                 href="https://42watt.checkout.energy/start"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm px-4 py-2 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-[var(--w-blue)] hover:opacity-90 text-white font-semibold text-sm px-4 py-2 transition-opacity"
               >
                 Jetzt dynamischen Tarif abschließen
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,13 +436,13 @@ export default function Strompreis() {
         )}
 
         {/* Attribution */}
-        <p className="text-xs text-[var(--color--dark-grey)] text-center">
+        <p className="text-xs text-[#222222] opacity-50 text-center">
           Preisdaten:{' '}
           <a
             href="https://api.energy-charts.info"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-[var(--color--dark-blue)]"
+            className="underline hover:opacity-80"
           >
             Energy Charts API
           </a>{' '}
