@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 interface HeaderProps {
-  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'wp-rechner' | 'autarkie' | 'admin';
+  currentPage?: 'home' | 'pv' | 'kfw' | 'pv-investition' | 'wp-rechner' | 'wp-stromverbrauch' | 'autarkie' | 'admin';
 }
 
 export default function Header({ currentPage }: HeaderProps) {
@@ -111,6 +111,17 @@ export default function Header({ currentPage }: HeaderProps) {
                   </div>
                 </Link>
                 <Link
+                  href="/waermepumpe-stromverbrauch"
+                  className={`dropdown-item ${currentPage === 'wp-stromverbrauch' ? 'dropdown-item-active' : ''}`}
+                  onClick={() => setToolsOpen(false)}
+                >
+                  <Image src="/aufzaehlung.svg" alt="" width={20} height={20} className="flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--color--black)]">WP-Stromverbrauchsrechner</div>
+                    <div className="text-xs text-[var(--color--dark-grey)]">Jahresverbrauch & Kosten</div>
+                  </div>
+                </Link>
+                <Link
                   href="/kfw"
                   className={`dropdown-item ${currentPage === 'kfw' ? 'dropdown-item-active' : ''}`}
                   onClick={() => setToolsOpen(false)}
@@ -201,6 +212,14 @@ export default function Header({ currentPage }: HeaderProps) {
             >
               <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
               WP-Amortisationsrechner
+            </Link>
+            <Link
+              href="/waermepumpe-stromverbrauch"
+              className={`mobile-nav-item ${currentPage === 'wp-stromverbrauch' ? 'mobile-nav-active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <Image src="/aufzaehlung.svg" alt="" width={16} height={16} />
+              WP-Stromverbrauchsrechner
             </Link>
             <Link
               href="/kfw"

@@ -22,6 +22,7 @@ const collectionSchema = {
     { '@type': 'SoftwareApplication', name: 'Wärmepumpen-Amortisationsrechner', url: 'https://tools.42watt.de/waermepumpe-rechner' },
     { '@type': 'SoftwareApplication', name: 'PV-Unabhängigkeitsrechner', url: 'https://tools.42watt.de/autarkie-rechner' },
     { '@type': 'SoftwareApplication', name: 'Börsenstrompreis live', url: 'https://tools.42watt.de/strompreis' },
+    { '@type': 'SoftwareApplication', name: 'Wärmepumpen-Stromverbrauchsrechner', url: 'https://tools.42watt.de/waermepumpe-stromverbrauch' },
   ],
 };
 
@@ -37,6 +38,7 @@ const itemListSchema = {
     { '@type': 'ListItem', position: 4, url: 'https://tools.42watt.de/waermepumpe-rechner', name: 'Wärmepumpen-Amortisationsrechner' },
     { '@type': 'ListItem', position: 5, url: 'https://tools.42watt.de/kfw', name: 'KfW Förderrechner' },
     { '@type': 'ListItem', position: 6, url: 'https://tools.42watt.de/strompreis', name: 'Börsenstrompreis live' },
+    { '@type': 'ListItem', position: 7, url: 'https://tools.42watt.de/waermepumpe-stromverbrauch', name: 'Wärmepumpen-Stromverbrauchsrechner' },
   ],
 };
 
@@ -199,12 +201,18 @@ export default function Home() {
           <div className="flex items-center gap-3 mb-4">
             <h2 className="text-xs font-semibold tracking-widest uppercase text-[var(--w-tech-grey)]">Wärmepumpe</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ToolCard
               href="/waermepumpe-rechner"
               icon={icons.home}
               title="WP-Amortisationsrechner"
               description="Wärmepumpe vs. Gas, Öl & Co."
+            />
+            <ToolCard
+              href="/waermepumpe-stromverbrauch"
+              icon={icons.bolt}
+              title="WP-Stromverbrauchsrechner"
+              description="Jahresverbrauch & Kosten berechnen"
             />
             <ToolCard
               href="/kfw"
