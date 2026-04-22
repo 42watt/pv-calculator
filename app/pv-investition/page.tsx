@@ -121,8 +121,8 @@ function SimpleChart({ data, investmentCosts }: { data: YearlyData[]; investment
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6">
-      <h3 className="text-lg font-bold text-[var(--color--dark-blue)] mb-4">
+    <div className="border border-[var(--w-border)] p-6 bg-white">
+      <h3 className="text-lg font-medium text-[#222222] mb-4" style={{ fontWeight: 400 }}>
         Kumulierte Netto-Ersparnis vs. Investition
       </h3>
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full" preserveAspectRatio="xMidYMid meet">
@@ -134,7 +134,7 @@ function SimpleChart({ data, investmentCosts }: { data: YearlyData[]; investment
             x2={width - padRight}
             y1={label.y}
             y2={label.y}
-            stroke="#e5e5e5"
+            stroke="#E5E0D7"
             strokeWidth="0.15"
           />
         ))}
@@ -163,11 +163,11 @@ function SimpleChart({ data, investmentCosts }: { data: YearlyData[]; investment
         {/* Area fill */}
         <path
           d={`${linePath} L${toX(data.length - 1).toFixed(1)},${toY(0).toFixed(1)} L${toX(0).toFixed(1)},${toY(0).toFixed(1)} Z`}
-          fill="rgba(52, 69, 255, 0.08)"
+          fill="rgba(52, 69, 255, 0.07)"
         />
 
         {/* Line */}
-        <path d={linePath} fill="none" stroke="var(--color--light-blue)" strokeWidth="0.5" strokeLinejoin="round" />
+        <path d={linePath} fill="none" stroke="var(--w-blue)" strokeWidth="0.5" strokeLinejoin="round" />
 
         {/* Dots */}
         {data.map((d, i) => (
@@ -176,7 +176,7 @@ function SimpleChart({ data, investmentCosts }: { data: YearlyData[]; investment
             cx={toX(i)}
             cy={toY(d.cumulativeRevenue)}
             r="0.6"
-            fill="var(--color--light-blue)"
+            fill="var(--w-blue)"
           />
         ))}
 
@@ -188,7 +188,7 @@ function SimpleChart({ data, investmentCosts }: { data: YearlyData[]; investment
             y={height - 1}
             textAnchor="middle"
             fontSize="2.2"
-            fill="var(--color--dark-grey)"
+            fill="#888888"
           >
             {d.year}
           </text>
@@ -201,19 +201,19 @@ function SimpleChart({ data, investmentCosts }: { data: YearlyData[]; investment
             x={padLeft + 0.5}
             y={label.y - 0.5}
             fontSize="1.8"
-            fill="var(--color--dark-grey)"
+            fill="#888888"
           >
             {label.val >= 1000 ? `${Math.round(label.val / 1000)}k` : Math.round(label.val)}
           </text>
         ))}
       </svg>
-      <div className="flex items-center gap-6 mt-3 text-xs text-[var(--color--dark-grey)]">
+      <div className="flex items-center gap-6 mt-3 text-xs text-[#888888]">
         <span className="flex items-center gap-1.5">
-          <span className="w-4 h-0.5 bg-[var(--color--light-blue)] inline-block rounded"></span>
+          <span className="w-4 h-0.5 bg-[var(--w-blue)] inline-block"></span>
           Kumulierte Netto-Ersparnis
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-4 h-0.5 bg-red-500 inline-block rounded" style={{ borderTop: '2px dashed #ef4444', height: 0 }}></span>
+          <span className="w-4 inline-block" style={{ borderTop: '2px dashed #ef4444', height: 0 }}></span>
           Investitionskosten
         </span>
       </div>
@@ -240,264 +240,270 @@ export default function PVInvestitionsrechner() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
+    <div className="min-h-screen bg-[var(--w-surface)] flex flex-col">
       <Header currentPage="pv-investition" />
 
       <main>
-      {/* Title */}
-      <div className="bg-[var(--color--light-blue)] text-white py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            Photovoltaik-Investition bewerten
-          </h1>
-          <p className="text-base md:text-lg opacity-90 max-w-2xl mx-auto">
-            Diese Seite hilft dir, Photovoltaik-Kosten als Investitionsentscheidung fundiert zu bewerten.
-            Sieh sofort Break-Even, Rendite und Amortisation und simuliere
-            Strompreisentwicklung sowie Szenarien transparent auf belastbarer Datengrundlage.
-          </p>
+        {/* Hero */}
+        <div className="bg-[var(--w-blue)] text-white py-12 md:py-16">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <h1 className="text-3xl md:text-4xl mb-3" style={{ fontWeight: 300 }}>
+              Photovoltaik-Investition bewerten
+            </h1>
+            <p className="text-base md:text-lg opacity-85 max-w-2xl mx-auto" style={{ fontWeight: 400 }}>
+              Diese Seite hilft dir, Photovoltaik-Kosten als Investitionsentscheidung fundiert zu bewerten.
+              Sieh sofort Break-Even, Rendite und Amortisation und simuliere
+              Strompreisentwicklung sowie Szenarien transparent auf belastbarer Datengrundlage.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
-          {/* Input Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-20">
-              <h2 className="text-xl font-bold text-[var(--color--dark-blue)] mb-6">
-                Deine Anlagendaten
-              </h2>
+            {/* Input Form */}
+            <div className="lg:col-span-2">
+              <div className="border border-[var(--w-border)] bg-white p-6 sticky top-20">
+                <h2 className="text-xl text-[#222222] mb-6" style={{ fontWeight: 500 }}>
+                  Deine Anlagendaten
+                </h2>
 
-              <div className="space-y-5">
-                {/* Investitionskosten */}
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                    Investitionskosten
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={inputs.investmentCosts}
-                      onChange={e => handleChange('investmentCosts', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none pr-14"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color--dark-grey)]">EUR</span>
-                  </div>
-                </div>
-
-                {/* PV-Anlagen Nebenkosten */}
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                    PV-Anlagen Nebenkosten
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={inputs.maintenanceCosts}
-                      onChange={e => handleChange('maintenanceCosts', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none pr-20"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color--dark-grey)]">EUR/Jahr</span>
-                  </div>
-                </div>
-
-                {/* Geschätzter Jahresertrag */}
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                    Geschätzter Jahresertrag
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={inputs.annualYield}
-                      onChange={e => handleChange('annualYield', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none pr-20"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color--dark-grey)]">kWh/Jahr</span>
-                  </div>
-                </div>
-
-                <div className="border-t border-[var(--color--medium-grey)] pt-5">
-                  {/* Aktueller Strompreis */}
-                  <div className="mb-5">
-                    <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                      Aktueller Strompreis
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={inputs.electricityPrice}
-                        onChange={e => handleChange('electricityPrice', parseFloat(e.target.value) || 0)}
-                        className="w-full px-4 py-2.5 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none pr-16"
-                      />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color--dark-grey)]">ct/kWh</span>
-                    </div>
-                  </div>
-
-                  {/* Jährliche Strompreissteigerung */}
-                  <div className="mb-5">
-                    <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                      Jährliche Strompreissteigerung: {inputs.electricityPriceIncrease.toFixed(1)} %
-                    </label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="6"
-                      step="0.1"
-                      value={inputs.electricityPriceIncrease}
-                      onChange={e => handleChange('electricityPriceIncrease', parseFloat(e.target.value))}
-                      className="w-full h-2 bg-[var(--color--medium-grey)] rounded-lg appearance-none cursor-pointer accent-[var(--color--light-blue)]"
-                    />
-                  </div>
-
-                  {/* Eigenverbrauchsanteil */}
-                  <div className="mb-5">
-                    <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                      Eigenverbrauchsanteil: {inputs.selfConsumptionRate.toFixed(1)} %
-                    </label>
-                    <input
-                      type="range"
-                      min="10"
-                      max="90"
-                      step="0.5"
-                      value={inputs.selfConsumptionRate}
-                      onChange={e => handleChange('selfConsumptionRate', parseFloat(e.target.value))}
-                      className="w-full h-2 bg-[var(--color--medium-grey)] rounded-lg appearance-none cursor-pointer accent-[var(--color--light-blue)]"
-                    />
-                  </div>
-
-                  {/* Einspeisevergütung */}
-                  <div className="mb-5">
-                    <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                      Einspeisevergütung
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={inputs.feedInTariff}
-                        onChange={e => handleChange('feedInTariff', parseFloat(e.target.value) || 0)}
-                        className="w-full px-4 py-2.5 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none pr-16"
-                      />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color--dark-grey)]">ct/kWh</span>
-                    </div>
-                  </div>
-
-                  {/* Betrachtungszeitraum */}
+                <div className="space-y-5">
+                  {/* Investitionskosten */}
                   <div>
-                    <label className="block text-sm font-semibold text-[var(--color--black)] mb-1.5">
-                      Betrachtungszeitraum: {inputs.observationPeriod} Jahre
+                    <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                      Investitionskosten
                     </label>
-                    <input
-                      type="range"
-                      min="10"
-                      max="30"
-                      step="1"
-                      value={inputs.observationPeriod}
-                      onChange={e => handleChange('observationPeriod', parseInt(e.target.value))}
-                      className="w-full h-2 bg-[var(--color--medium-grey)] rounded-lg appearance-none cursor-pointer accent-[var(--color--light-blue)]"
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={inputs.investmentCosts}
+                        onChange={e => handleChange('investmentCosts', parseFloat(e.target.value) || 0)}
+                        className="w-full px-4 py-2.5 border border-[var(--w-border)] focus:border-[var(--w-blue)] focus:outline-none pr-14 bg-white text-[#222222]"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#888888]">EUR</span>
+                    </div>
+                  </div>
+
+                  {/* PV-Anlagen Nebenkosten */}
+                  <div>
+                    <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                      PV-Anlagen Nebenkosten
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={inputs.maintenanceCosts}
+                        onChange={e => handleChange('maintenanceCosts', parseFloat(e.target.value) || 0)}
+                        className="w-full px-4 py-2.5 border border-[var(--w-border)] focus:border-[var(--w-blue)] focus:outline-none pr-20 bg-white text-[#222222]"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#888888]">EUR/Jahr</span>
+                    </div>
+                  </div>
+
+                  {/* Geschätzter Jahresertrag */}
+                  <div>
+                    <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                      Geschätzter Jahresertrag
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={inputs.annualYield}
+                        onChange={e => handleChange('annualYield', parseFloat(e.target.value) || 0)}
+                        className="w-full px-4 py-2.5 border border-[var(--w-border)] focus:border-[var(--w-blue)] focus:outline-none pr-20 bg-white text-[#222222]"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#888888]">kWh/Jahr</span>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-[var(--w-border)] pt-5">
+                    {/* Aktueller Strompreis */}
+                    <div className="mb-5">
+                      <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                        Aktueller Strompreis
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={inputs.electricityPrice}
+                          onChange={e => handleChange('electricityPrice', parseFloat(e.target.value) || 0)}
+                          className="w-full px-4 py-2.5 border border-[var(--w-border)] focus:border-[var(--w-blue)] focus:outline-none pr-16 bg-white text-[#222222]"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#888888]">ct/kWh</span>
+                      </div>
+                    </div>
+
+                    {/* Jährliche Strompreissteigerung */}
+                    <div className="mb-5">
+                      <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                        Jährliche Strompreissteigerung: {inputs.electricityPriceIncrease.toFixed(1)} %
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="6"
+                        step="0.1"
+                        value={inputs.electricityPriceIncrease}
+                        onChange={e => handleChange('electricityPriceIncrease', parseFloat(e.target.value))}
+                        className="w-full h-1.5 appearance-none cursor-pointer accent-[var(--w-blue)]"
+                        style={{ backgroundColor: 'var(--w-border)' }}
+                      />
+                    </div>
+
+                    {/* Eigenverbrauchsanteil */}
+                    <div className="mb-5">
+                      <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                        Eigenverbrauchsanteil: {inputs.selfConsumptionRate.toFixed(1)} %
+                      </label>
+                      <input
+                        type="range"
+                        min="10"
+                        max="90"
+                        step="0.5"
+                        value={inputs.selfConsumptionRate}
+                        onChange={e => handleChange('selfConsumptionRate', parseFloat(e.target.value))}
+                        className="w-full h-1.5 appearance-none cursor-pointer accent-[var(--w-blue)]"
+                        style={{ backgroundColor: 'var(--w-border)' }}
+                      />
+                    </div>
+
+                    {/* Einspeisevergütung */}
+                    <div className="mb-5">
+                      <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                        Einspeisevergütung
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={inputs.feedInTariff}
+                          onChange={e => handleChange('feedInTariff', parseFloat(e.target.value) || 0)}
+                          className="w-full px-4 py-2.5 border border-[var(--w-border)] focus:border-[var(--w-blue)] focus:outline-none pr-16 bg-white text-[#222222]"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#888888]">ct/kWh</span>
+                      </div>
+                    </div>
+
+                    {/* Betrachtungszeitraum */}
+                    <div>
+                      <label className="block text-sm text-[#222222] mb-1.5" style={{ fontWeight: 500 }}>
+                        Betrachtungszeitraum: {inputs.observationPeriod} Jahre
+                      </label>
+                      <input
+                        type="range"
+                        min="10"
+                        max="30"
+                        step="1"
+                        value={inputs.observationPeriod}
+                        onChange={e => handleChange('observationPeriod', parseInt(e.target.value))}
+                        className="w-full h-1.5 appearance-none cursor-pointer accent-[var(--w-blue)]"
+                        style={{ backgroundColor: 'var(--w-border)' }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Results */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* KPI Cards */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white rounded-2xl shadow-lg p-5 text-center">
-                <div className="text-sm text-[var(--color--dark-grey)] mb-1">Break-Even</div>
-                <div className="text-3xl md:text-4xl font-bold text-[var(--color--light-blue)]">
-                  {results.breakEvenYear <= inputs.observationPeriod
-                    ? `${results.breakEvenYear} Jahre`
-                    : `>${inputs.observationPeriod} J.`}
+            {/* Results */}
+            <div className="lg:col-span-3 space-y-6">
+              {/* KPI Cards */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="border border-[var(--w-border)] bg-white p-5 text-center">
+                  <div className="text-sm text-[#888888] mb-1" style={{ fontWeight: 400 }}>Break-Even</div>
+                  <div className="text-3xl md:text-4xl text-[var(--w-blue)]" style={{ fontWeight: 300 }}>
+                    {results.breakEvenYear <= inputs.observationPeriod
+                      ? `${results.breakEvenYear} Jahre`
+                      : `>${inputs.observationPeriod} J.`}
+                  </div>
+                  <div className="text-xs text-[#888888] mt-1">Ab dann verdienst du</div>
                 </div>
-                <div className="text-xs text-[var(--color--dark-grey)] mt-1">Ab dann verdienst du</div>
+
+                <div className="border border-[var(--w-border)] bg-white p-5 text-center">
+                  <div className="text-sm text-[#888888] mb-1" style={{ fontWeight: 400 }}>Gesamtrendite</div>
+                  <div className="text-3xl md:text-4xl text-[#16a34a]" style={{ fontWeight: 300 }}>
+                    {results.totalReturn.toLocaleString('de-DE')} %
+                  </div>
+                  <div className="text-xs text-[#888888] mt-1">Über {inputs.observationPeriod} Jahre</div>
+                </div>
+
+                <div className="border border-[var(--w-border)] bg-white p-5 text-center">
+                  <div className="text-sm text-[#888888] mb-1" style={{ fontWeight: 400 }}>Nettogewinn</div>
+                  <div
+                    className={`text-3xl md:text-4xl ${results.netProfit >= 0 ? 'text-[#16a34a]' : 'text-red-500'}`}
+                    style={{ fontWeight: 300 }}
+                  >
+                    {results.netProfit.toLocaleString('de-DE')} €
+                  </div>
+                  <div className="text-xs text-[#888888] mt-1">über {inputs.observationPeriod} Jahre (inkl. Unterhalt)</div>
+                </div>
+
+                <div className="border border-[var(--w-border)] bg-white p-5 text-center">
+                  <div className="text-sm text-[#888888] mb-1" style={{ fontWeight: 400 }}>Jährliche Rendite</div>
+                  <div className="text-3xl md:text-4xl text-[var(--w-blue)]" style={{ fontWeight: 300 }}>
+                    {results.annualReturn.toLocaleString('de-DE')} %
+                  </div>
+                  <div className="text-xs text-[#888888] mt-1">annualisiert</div>
+                </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg p-5 text-center">
-                <div className="text-sm text-[var(--color--dark-grey)] mb-1">Gesamtrendite</div>
-                <div className="text-3xl md:text-4xl font-bold text-[var(--color--green)]">
-                  {results.totalReturn.toLocaleString('de-DE')} %
-                </div>
-                <div className="text-xs text-[var(--color--dark-grey)] mt-1">Über {inputs.observationPeriod} Jahre</div>
-              </div>
+              {/* Chart */}
+              <SimpleChart data={results.yearlyData} investmentCosts={inputs.investmentCosts} />
 
-              <div className="bg-white rounded-2xl shadow-lg p-5 text-center">
-                <div className="text-sm text-[var(--color--dark-grey)] mb-1">Nettogewinn</div>
-                <div className={`text-3xl md:text-4xl font-bold ${results.netProfit >= 0 ? 'text-[var(--color--green)]' : 'text-red-500'}`}>
-                  {results.netProfit.toLocaleString('de-DE')} €
-                </div>
-                <div className="text-xs text-[var(--color--dark-grey)] mt-1">über {inputs.observationPeriod} Jahre (inkl. Unterhalt)</div>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-lg p-5 text-center">
-                <div className="text-sm text-[var(--color--dark-grey)] mb-1">Jährliche Rendite</div>
-                <div className="text-3xl md:text-4xl font-bold text-[var(--color--light-blue)]">
-                  {results.annualReturn.toLocaleString('de-DE')} %
-                </div>
-                <div className="text-xs text-[var(--color--dark-grey)] mt-1">annualisiert</div>
-              </div>
-            </div>
-
-            {/* Chart */}
-            <SimpleChart data={results.yearlyData} investmentCosts={inputs.investmentCosts} />
-
-            {/* Yearly Table */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-[var(--color--dark-blue)] mb-4">
-                Jährliche Entwicklung
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b-2 border-[var(--color--medium-grey)]">
-                      <th className="text-left py-2 px-2 font-semibold">Jahr</th>
-                      <th className="text-right py-2 px-2 font-semibold">Strompreis</th>
-                      <th className="text-right py-2 px-2 font-semibold">Eigenverbrauch</th>
-                      <th className="text-right py-2 px-2 font-semibold">Einspeisung</th>
-                      <th className="text-right py-2 px-2 font-semibold">Netto/Jahr</th>
-                      <th className="text-right py-2 px-2 font-semibold">Kumuliert</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {results.yearlyData.map((row, i) => (
-                      <tr
-                        key={row.year}
-                        className={`border-b border-[var(--color--light-grey)] ${i % 2 === 0 ? 'bg-[var(--color--light-grey)] bg-opacity-30' : ''}`}
-                      >
-                        <td className="py-2 px-2 font-semibold">{row.year}</td>
-                        <td className="text-right py-2 px-2">{row.electricityPrice} ct</td>
-                        <td className="text-right py-2 px-2 text-[var(--color--green)]">{row.selfConsumptionSavings.toLocaleString('de-DE')} €</td>
-                        <td className="text-right py-2 px-2">{row.feedInRevenue.toLocaleString('de-DE')} €</td>
-                        <td className="text-right py-2 px-2 font-semibold">{row.totalRevenue.toLocaleString('de-DE')} €</td>
-                        <td className={`text-right py-2 px-2 font-bold ${row.netProfit >= 0 ? 'text-[var(--color--green)]' : 'text-red-500'}`}>
-                          {row.netProfit.toLocaleString('de-DE')} €
-                        </td>
+              {/* Yearly Table */}
+              <div className="border border-[var(--w-border)] bg-white p-6">
+                <h3 className="text-lg text-[#222222] mb-4" style={{ fontWeight: 400 }}>
+                  Jährliche Entwicklung
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b-2 border-[var(--w-border)]">
+                        <th className="text-left py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>Jahr</th>
+                        <th className="text-right py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>Strompreis</th>
+                        <th className="text-right py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>Eigenverbrauch</th>
+                        <th className="text-right py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>Einspeisung</th>
+                        <th className="text-right py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>Netto/Jahr</th>
+                        <th className="text-right py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>Kumuliert</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {results.yearlyData.map((row, i) => (
+                        <tr
+                          key={row.year}
+                          className={`border-b border-[var(--w-border)] ${i % 2 === 0 ? 'bg-[#FEFBF9]' : 'bg-white'}`}
+                        >
+                          <td className="py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>{row.year}</td>
+                          <td className="text-right py-2 px-2 text-[#444444]">{row.electricityPrice} ct</td>
+                          <td className="text-right py-2 px-2 text-[#16a34a]">{row.selfConsumptionSavings.toLocaleString('de-DE')} €</td>
+                          <td className="text-right py-2 px-2 text-[#444444]">{row.feedInRevenue.toLocaleString('de-DE')} €</td>
+                          <td className="text-right py-2 px-2 text-[#222222]" style={{ fontWeight: 500 }}>{row.totalRevenue.toLocaleString('de-DE')} €</td>
+                          <td className={`text-right py-2 px-2 ${row.netProfit >= 0 ? 'text-[#16a34a]' : 'text-red-500'}`} style={{ fontWeight: 600 }}>
+                            {row.netProfit.toLocaleString('de-DE')} €
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Disclaimer */}
-        <div className="disclaimer-section mt-8">
-          <div className="disclaimer-icon">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          {/* Disclaimer */}
+          <div className="disclaimer-section mt-8">
+            <div className="disclaimer-icon">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="disclaimer-text">
+              Dieser Rechner liefert unverbindliche Schätzwerte auf Basis deiner Eingaben und ist keine Anlage-, Finanz-, Steuer- oder Rechtsberatung. Tatsächliche Erträge und Wirtschaftlichkeit können u. a. durch Verschattung, Witterung, Modulalterung, laufende Unterhaltskosten und individuelle Projektbedingungen abweichen.
+            </p>
           </div>
-          <p className="disclaimer-text">
-            Dieser Rechner liefert unverbindliche Schätzwerte auf Basis deiner Eingaben und ist keine Anlage-, Finanz-, Steuer- oder Rechtsberatung. Tatsächliche Erträge und Wirtschaftlichkeit können u. a. durch Verschattung, Witterung, Modulalterung, laufende Unterhaltskosten und individuelle Projektbedingungen abweichen.
-          </p>
         </div>
-      </div>
       </main>
 
       <Footer />

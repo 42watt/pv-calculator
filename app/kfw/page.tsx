@@ -233,53 +233,48 @@ export default function WaermepumpenFoerderrechner() {
 
   const isAgeRelevant = inputs.oldHeatingType === 'gaskessel' || inputs.oldHeatingType === 'biomasse';
 
+  const inputClass =
+    'w-full px-3 py-2.5 border border-[var(--w-border)] bg-white focus:border-[var(--w-blue)] focus:outline-none text-[#222222] text-sm';
+  const labelClass = 'block text-xs font-medium text-[#666] uppercase tracking-wide mb-1.5';
+
   return (
-    <div className="min-h-screen bg-[var(--color--light-grey)]">
+    <div className="min-h-screen bg-[var(--w-surface)]">
       <Header currentPage="kfw" />
 
       <main>
-      {/* Title */}
-      <div className="max-w-4xl mx-auto pt-8 px-4 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-[var(--color--dark-blue)] mb-2">
-          Wärmepumpen-Förderrechner
-        </h1>
-        <p className="text-lg text-[var(--color--dark-grey)] mb-2">
-          BEG EM 2024 – Bundesförderung für effiziente Gebäude
-        </p>
-        <p className="text-sm text-[var(--color--dark-grey)] mb-8">
-          Berechnen Sie Ihre maximale Förderung für den Einbau einer Wärmepumpe
-        </p>
-      </div>
+        {/* Page header */}
+        <div className="max-w-4xl mx-auto pt-10 px-4">
+          <p className="text-xs font-medium text-[var(--w-blue)] uppercase tracking-widest mb-2">
+            BEG EM 2024
+          </p>
+          <h1 className="text-3xl md:text-4xl font-light text-[#222222] mb-2">
+            Wärmepumpen-Förderrechner
+          </h1>
+          <p className="text-sm text-[#666] mb-8">
+            Berechnen Sie Ihre maximale KfW-Förderung für den Einbau einer Wärmepumpe
+          </p>
+        </div>
 
-      <div className="max-w-4xl mx-auto pb-12 px-4">
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          {/* Gebäudedaten */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-[var(--color--medium-grey)]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-7 h-7 text-[var(--color--dark-blue)]"
-              >
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
-              </svg>
-              <h3 className="text-2xl font-bold text-[var(--color--dark-blue)]">Gebäudedaten</h3>
+        <div className="max-w-4xl mx-auto pb-16 px-4">
+
+          {/* ── Section 1: Gebäudedaten ── */}
+          <div className="border border-[var(--w-border)] bg-white mb-4">
+            <div className="px-6 py-4 border-b border-[var(--w-border)] flex items-center gap-3">
+              <span className="w-5 h-5 rounded-full bg-[var(--w-blue)] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">1</span>
+              <h2 className="text-sm font-semibold text-[#222222] uppercase tracking-wide">Gebäudedaten</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                  Gebäudetyp
-                </label>
+                <label className={labelClass}>Gebäudetyp</label>
                 <select
                   value={inputs.buildingType}
                   onChange={(e) =>
                     handleInputChange('buildingType', e.target.value as FoerderInputs['buildingType'])
                   }
-                  className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                  className={inputClass}
                 >
-                  <option value="">Bitte wählen...</option>
+                  <option value="">Bitte wählen…</option>
                   <option value="single_family_home">Einfamilienhaus</option>
                   <option value="multi_family_home">Mehrfamilienhaus</option>
                   <option value="condominium_assoc">Wohnung in einer WEG</option>
@@ -288,12 +283,10 @@ export default function WaermepumpenFoerderrechner() {
 
               {inputs.buildingType && (
                 <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
+                  <label className={labelClass}>
                     Anzahl Wohneinheiten
                     {inputs.buildingType === 'single_family_home' && (
-                      <span className="text-sm font-normal text-[var(--color--dark-grey)] ml-2">
-                        (inkl. Einliegerwohnung)
-                      </span>
+                      <span className="ml-1 normal-case font-normal text-[#999]">(inkl. Einliegerwohnung)</span>
                     )}
                   </label>
                   <input
@@ -304,20 +297,18 @@ export default function WaermepumpenFoerderrechner() {
                       handleInputChange('residentialUnits', parseInt(e.target.value) || 0)
                     }
                     placeholder={inputs.buildingType === 'single_family_home' ? 'z.B. 1 oder 2' : 'z.B. 10'}
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    className={inputClass}
                   />
                 </div>
               )}
 
               {inputs.buildingType === 'multi_family_home' && (
                 <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                    Bewohnen Sie eine der Einheiten?
-                  </label>
+                  <label className={labelClass}>Bewohnen Sie eine der Einheiten?</label>
                   <select
                     value={inputs.selfUse ? 'yes' : 'no'}
                     onChange={(e) => handleInputChange('selfUse', e.target.value === 'yes')}
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    className={inputClass}
                   >
                     <option value="no">Nein (reine Vermietung)</option>
                     <option value="yes">Ja (mind. eine Einheit selbst genutzt)</option>
@@ -327,9 +318,7 @@ export default function WaermepumpenFoerderrechner() {
 
               {inputs.buildingType === 'condominium_assoc' && (
                 <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                    Ihr Miteigentumsanteil (%)
-                  </label>
+                  <label className={labelClass}>Ihr Miteigentumsanteil (%)</label>
                   <input
                     type="number"
                     min="1"
@@ -339,41 +328,30 @@ export default function WaermepumpenFoerderrechner() {
                       handleInputChange('ownershipShare', parseInt(e.target.value) || 0)
                     }
                     placeholder="z.B. 8"
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    className={inputClass}
                   />
                 </div>
               )}
             </div>
           </div>
 
-          {/* Persönliche Boni */}
+          {/* ── Section 2: Persönliche Boni ── */}
           {showBonusQuestions && (
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-[var(--color--medium-grey)]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-7 h-7 text-[var(--color--dark-blue)]"
-                >
-                  <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H2v2h2v3h2v-3h2v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-                <h3 className="text-2xl font-bold text-[var(--color--dark-blue)]">
-                  Ihre persönlichen Boni
-                </h3>
+            <div className="border border-[var(--w-border)] bg-white mb-4">
+              <div className="px-6 py-4 border-b border-[var(--w-border)] flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--w-blue)] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">2</span>
+                <h2 className="text-sm font-semibold text-[#222222] uppercase tracking-wide">Persönliche Boni</h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                    Neue Wärmequelle
-                  </label>
+                  <label className={labelClass}>Neue Wärmequelle</label>
                   <select
                     value={inputs.heatPumpType}
                     onChange={(e) =>
                       handleInputChange('heatPumpType', e.target.value as FoerderInputs['heatPumpType'])
                     }
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    className={inputClass}
                   >
                     <option value="air">Luft</option>
                     <option value="ground">Erdreich (Sole)</option>
@@ -382,17 +360,15 @@ export default function WaermepumpenFoerderrechner() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                    Bestehende Heizung
-                  </label>
+                  <label className={labelClass}>Bestehende Heizung</label>
                   <select
                     value={inputs.oldHeatingType}
                     onChange={(e) =>
                       handleInputChange('oldHeatingType', e.target.value as FoerderInputs['oldHeatingType'])
                     }
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    className={inputClass}
                   >
-                    <option value="">Bitte wählen...</option>
+                    <option value="">Bitte wählen…</option>
                     <option value="oel">Ölheizung</option>
                     <option value="gasetagen">Gasetagenheizung</option>
                     <option value="kohle">Kohleheizung</option>
@@ -406,37 +382,33 @@ export default function WaermepumpenFoerderrechner() {
                 <div
                   className={
                     isAgeRelevant
-                      ? 'bg-[var(--color--light-green)] border-2 border-[var(--color--light-blue)] rounded-lg p-4 -m-4 md:col-span-2'
+                      ? 'md:col-span-2 border border-[var(--w-blue)] bg-blue-50 p-4'
                       : 'md:col-span-2'
                   }
                 >
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                    Alter der Gas-/Biomasseheizung
-                  </label>
+                  <label className={labelClass}>Alter der Gas-/Biomasseheizung</label>
                   <select
                     value={inputs.oldHeatingAge}
                     onChange={(e) =>
                       handleInputChange('oldHeatingAge', e.target.value as FoerderInputs['oldHeatingAge'])
                     }
                     disabled={!isAgeRelevant}
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className={`${inputClass} disabled:bg-[#f5f3f0] disabled:text-[#aaa] disabled:cursor-not-allowed`}
                   >
-                    <option value="">Bitte wählen...</option>
+                    <option value="">Bitte wählen…</option>
                     <option value="older_20">Mindestens 20 Jahre</option>
                     <option value="younger_20">Jünger als 20 Jahre</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-                    Zu versteuerndes Haushaltseinkommen
-                  </label>
+                  <label className={labelClass}>Zu versteuerndes Haushaltseinkommen</label>
                   <select
                     value={inputs.incomeBracket}
                     onChange={(e) =>
                       handleInputChange('incomeBracket', e.target.value as FoerderInputs['incomeBracket'])
                     }
-                    className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none"
+                    className={inputClass}
                   >
                     <option value="over_40k">Über 40.000 €</option>
                     <option value="under_40k">Bis 40.000 €</option>
@@ -444,14 +416,14 @@ export default function WaermepumpenFoerderrechner() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="flex items-center cursor-pointer">
+                  <label className="flex items-center gap-3 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={inputs.naturalRefrigerant}
                       onChange={(e) => handleInputChange('naturalRefrigerant', e.target.checked)}
-                      className="w-5 h-5 text-[var(--color--light-blue)] rounded accent-[var(--color--light-blue)]"
+                      className="w-4 h-4 accent-[var(--w-blue)]"
                     />
-                    <span className="ml-3 text-sm font-medium text-[var(--color--black)]">
+                    <span className="text-sm text-[#222222]">
                       Die neue Wärmepumpe nutzt ein natürliches Kältemittel (z.B. Propan R290).
                     </span>
                   </label>
@@ -460,380 +432,372 @@ export default function WaermepumpenFoerderrechner() {
             </div>
           )}
 
-          {/* Gesamtkosten */}
-          <div className="mb-8">
-            <label className="block text-sm font-semibold text-[var(--color--black)] mb-2">
-              Förderfähige Gesamtkosten
-            </label>
-            <input
-              type="number"
-              value={inputs.totalCosts || ''}
-              onChange={(e) => handleInputChange('totalCosts', parseFloat(e.target.value) || 0)}
-              placeholder="z.B. 35000"
-              className="w-full px-4 py-3 border-2 border-[var(--color--medium-grey)] rounded-lg focus:border-[var(--color--light-blue)] focus:outline-none text-lg"
-            />
+          {/* ── Section 3: Kosten ── */}
+          <div className="border border-[var(--w-border)] bg-white mb-6">
+            <div className="px-6 py-4 border-b border-[var(--w-border)] flex items-center gap-3">
+              <span className="w-5 h-5 rounded-full bg-[var(--w-blue)] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                {showBonusQuestions ? '3' : '2'}
+              </span>
+              <h2 className="text-sm font-semibold text-[#222222] uppercase tracking-wide">Förderfähige Gesamtkosten</h2>
+            </div>
+
+            <div className="p-6">
+              <input
+                type="number"
+                value={inputs.totalCosts || ''}
+                onChange={(e) => handleInputChange('totalCosts', parseFloat(e.target.value) || 0)}
+                placeholder="z.B. 35000"
+                className={`${inputClass} text-base`}
+              />
+            </div>
           </div>
 
-          {/* Error Message */}
+          {/* Error */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-lg text-red-800 text-center font-medium">
+            <div className="mb-5 px-4 py-3 border border-red-300 bg-red-50 text-red-800 text-sm">
               {error}
             </div>
           )}
 
-          {/* Calculate Button */}
+          {/* CTA */}
           <button
             onClick={handleCalculate}
-            className="w-full py-4 bg-[var(--color--light-blue)] text-white font-bold text-lg rounded-lg hover:bg-[var(--color--dark-blue)] transition-all transform hover:-translate-y-0.5 shadow-lg"
+            className="w-full py-4 bg-[var(--w-blue)] text-white font-semibold text-base hover:opacity-90 transition-opacity"
           >
             Förderung berechnen
           </button>
 
           {/* Disclaimer */}
-          <div className="mt-6 p-4 bg-[var(--color--light-grey)] rounded-lg text-center text-sm text-[var(--color--dark-grey)]">
+          <p className="mt-4 text-center text-xs text-[#999]">
             Alle Angaben ohne Gewähr. Der Förderrechner ist ein freiwilliger und unverbindlicher
             Service der Enovato GmbH (42watt).
-          </div>
-        </div>
+          </p>
 
-        {/* Results */}
-        {result && (
-          <div className="mt-8 bg-[var(--color--light-green)] rounded-2xl shadow-lg p-8 animate-fadeIn">
-            <div className="text-center mb-6">
-              <h4 className="text-sm font-semibold text-[var(--color--dark-grey)] uppercase tracking-wide mb-2">
-                {inputs.buildingType === 'condominium_assoc'
-                  ? 'Ihr persönlicher Gesamtvorteil'
-                  : inputs.residentialUnits > 1 && isSelfOccupier
-                  ? 'Gesamtförderung (Gemeinschaft + Ihr Bonus)'
-                  : 'Voraussichtliche Gesamtförderung'}
-              </h4>
-              <div className="text-5xl font-bold text-[var(--color--green)]">
-                {formatCurrency(result.totalFunding)}
+          {/* ── Results ── */}
+          {result && (
+            <div className="mt-8 border border-[var(--w-border)]">
+              {/* Hero total */}
+              <div className="bg-[var(--w-blue)] px-6 py-8 text-center text-white">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-200 mb-2">
+                  {inputs.buildingType === 'condominium_assoc'
+                    ? 'Ihr persönlicher Gesamtvorteil'
+                    : inputs.residentialUnits > 1 && isSelfOccupier
+                    ? 'Gesamtförderung (Gemeinschaft + Ihr Bonus)'
+                    : 'Voraussichtliche Gesamtförderung'}
+                </p>
+                <div className="text-5xl font-light tracking-tight mb-1">
+                  {formatCurrency(result.totalFunding)}
+                </div>
+                {inputs.residentialUnits > 1 && (
+                  <p className="text-sm text-blue-200 mt-2">
+                    Pro Wohneinheit: {formatCurrency(result.totalFunding / inputs.residentialUnits)}
+                  </p>
+                )}
               </div>
-              {inputs.residentialUnits > 1 && (
-                <div className="text-sm text-[var(--color--dark-grey)] mt-3">
-                  Pro Wohneinheit: {formatCurrency(result.totalFunding / inputs.residentialUnits)}
-                </div>
-              )}
-            </div>
 
-            <div className="space-y-2">
-              {/* Show breakdown if split funding */}
-              {result.commonFunding !== undefined && result.personalFunding !== undefined && (
-                <div className="mb-4 p-4 bg-white rounded-lg border-2 border-[var(--color--light-blue)]">
-                  <div className="text-sm font-semibold text-[var(--color--dark-blue)] mb-3">
-                    Förderungsaufschlüsselung:
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-[var(--color--dark-grey)]">Gemeinschaftsförderung (Basis + Effizienz):</span>
-                      <span className="font-semibold">{formatCurrency(result.commonFunding)}</span>
-                    </div>
-                    {inputs.buildingType === 'condominium_assoc' && result.userShareOfCommon !== undefined && (
-                      <div className="flex justify-between pl-4 text-xs">
-                        <span className="text-[var(--color--dark-grey)]">Ihr Anteil ({inputs.ownershipShare}%):</span>
-                        <span className="font-semibold">{formatCurrency(result.userShareOfCommon)}</span>
+              <div className="bg-white">
+                {/* Funding breakdown (only if split) */}
+                {result.commonFunding !== undefined && result.personalFunding !== undefined && (
+                  <div className="border-b border-[var(--w-border)] px-6 py-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-[#666] mb-3">
+                      Förderungsaufschlüsselung
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-[#666]">Gemeinschaftsförderung (Basis + Effizienz)</span>
+                        <span className="font-medium text-[#222222]">{formatCurrency(result.commonFunding)}</span>
                       </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-[var(--color--dark-grey)]">
-                        {inputs.buildingType === 'condominium_assoc' ? 'Ihr persönlicher Bonus:' : 'Persönliche Boni (pro WE):'}
-                      </span>
-                      <span className="font-semibold">{formatCurrency(result.personalFunding)}</span>
-                    </div>
-                    {inputs.residentialUnits > 1 && (
-                      <div className="flex justify-between pl-4 text-xs">
-                        <span className="text-[var(--color--dark-grey)]">Förderung pro Wohneinheit:</span>
-                        <span className="font-semibold">{formatCurrency(result.totalFunding / inputs.residentialUnits)}</span>
+                      {inputs.buildingType === 'condominium_assoc' && result.userShareOfCommon !== undefined && (
+                        <div className="flex justify-between pl-4 text-xs text-[#999]">
+                          <span>Ihr Anteil ({inputs.ownershipShare}%)</span>
+                          <span className="font-medium">{formatCurrency(result.userShareOfCommon)}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span className="text-[#666]">
+                          {inputs.buildingType === 'condominium_assoc'
+                            ? 'Ihr persönlicher Bonus'
+                            : 'Persönliche Boni (pro WE)'}
+                        </span>
+                        <span className="font-medium text-[#222222]">{formatCurrency(result.personalFunding)}</span>
                       </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Basisförderung */}
-              {inputs.buildingType === 'condominium_assoc' && result.userShareOfCommon !== undefined ? (
-                <div className="flex justify-between items-center py-3 px-4 bg-white bg-opacity-70 rounded-lg">
-                  <div className="flex items-center">
-                    <span className="text-green-600 mr-3 text-xl">✓</span>
-                    <span className="text-sm font-medium">Ihr Anteil an der Gemeinschaftsförderung</span>
-                  </div>
-                  <span className="font-semibold">{formatCurrency(result.userShareOfCommon)}</span>
-                </div>
-              ) : (
-                <div className="flex justify-between items-center py-3 px-4 bg-white bg-opacity-70 rounded-lg">
-                  <div className="flex items-center">
-                    <span className="text-green-600 mr-3 text-xl">✓</span>
-                    <span className="text-sm font-medium">Grundförderung</span>
-                  </div>
-                  <span className="font-semibold">{CONFIG.RATES.base}%</span>
-                </div>
-              )}
-
-              {/* Effizienzbonus */}
-              {!(inputs.buildingType === 'condominium_assoc') && (
-                <div className="flex justify-between items-center py-3 px-4 bg-white bg-opacity-70 rounded-lg">
-                  <div className="flex items-center">
-                    <span className={`mr-3 text-xl ${result.bonuses.efficiency.granted ? 'text-green-600' : 'text-red-500'}`}>
-                      {result.bonuses.efficiency.granted ? '✓' : '✗'}
-                    </span>
-                    <div>
-                      <span className="text-sm font-medium">Effizienzbonus</span>
-                      {!result.bonuses.efficiency.granted && result.bonuses.efficiency.reason && (
-                        <div className="text-xs text-[var(--color--dark-grey)] mt-0.5">
-                          {result.bonuses.efficiency.reason}
+                      {inputs.residentialUnits > 1 && (
+                        <div className="flex justify-between pl-4 text-xs text-[#999]">
+                          <span>Förderung pro Wohneinheit</span>
+                          <span className="font-medium">{formatCurrency(result.totalFunding / inputs.residentialUnits)}</span>
                         </div>
                       )}
                     </div>
                   </div>
-                  <span className="font-semibold">
-                    {result.bonuses.efficiency.granted ? `${result.bonuses.efficiency.rate}%` : '0%'}
-                  </span>
-                </div>
-              )}
+                )}
 
-              {/* Klimageschwindigkeitsbonus */}
-              <div className="flex justify-between items-center py-3 px-4 bg-white bg-opacity-70 rounded-lg">
-                <div className="flex items-center">
-                  <span className={`mr-3 text-xl ${result.bonuses.speed.granted ? 'text-green-600' : 'text-red-500'}`}>
-                    {result.bonuses.speed.granted ? '✓' : '✗'}
-                  </span>
-                  <div>
-                    <span className="text-sm font-medium">
-                      {inputs.buildingType === 'condominium_assoc'
-                        ? 'Ihr persönlicher Klimabonus'
-                        : 'Klimageschwindigkeitsbonus'}
-                    </span>
-                    {!result.bonuses.speed.granted && result.bonuses.speed.reason && (
-                      <div className="text-xs text-[var(--color--dark-grey)] mt-0.5">
-                        {result.bonuses.speed.reason}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <span className="font-semibold">
-                  {result.bonuses.speed.granted ? `${result.bonuses.speed.rate}%` : '0%'}
-                </span>
-              </div>
-
-              {/* Einkommensbonus */}
-              <div className="flex justify-between items-center py-3 px-4 bg-white bg-opacity-70 rounded-lg">
-                <div className="flex items-center">
-                  <span className={`mr-3 text-xl ${result.bonuses.income.granted ? 'text-green-600' : 'text-red-500'}`}>
-                    {result.bonuses.income.granted ? '✓' : '✗'}
-                  </span>
-                  <div>
-                    <span className="text-sm font-medium">
-                      {inputs.buildingType === 'condominium_assoc'
-                        ? 'Ihr persönlicher Einkommensbonus'
-                        : 'Einkommensbonus'}
-                    </span>
-                    {!result.bonuses.income.granted && result.bonuses.income.reason && (
-                      <div className="text-xs text-[var(--color--dark-grey)] mt-0.5">
-                        {result.bonuses.income.reason}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <span className="font-semibold">
-                  {result.bonuses.income.granted ? `${result.bonuses.income.rate}%` : '0%'}
-                </span>
-              </div>
-
-              {/* Eigenanteil */}
-              <div className="flex justify-between items-center py-4 px-4 bg-white border-2 border-[var(--color--green)] rounded-lg mt-4 font-bold text-lg">
-                <span>Ihr voraussichtlicher Eigenanteil</span>
-                <span>
-                  {formatCurrency(
-                    inputs.buildingType === 'condominium_assoc'
-                      ? inputs.totalCosts * (inputs.ownershipShare / 100) - result.totalFunding
-                      : inputs.totalCosts - result.totalFunding
+                {/* Bonus rows */}
+                <div className="divide-y divide-[var(--w-border)]">
+                  {/* Basisförderung / WEG-Anteil */}
+                  {inputs.buildingType === 'condominium_assoc' && result.userShareOfCommon !== undefined ? (
+                    <BonusRow
+                      granted={true}
+                      label="Ihr Anteil an der Gemeinschaftsförderung"
+                      value={formatCurrency(result.userShareOfCommon)}
+                    />
+                  ) : (
+                    <BonusRow
+                      granted={true}
+                      label="Grundförderung"
+                      value={`${CONFIG.RATES.base}%`}
+                    />
                   )}
-                </span>
+
+                  {/* Effizienzbonus (hidden for WEG) */}
+                  {inputs.buildingType !== 'condominium_assoc' && (
+                    <BonusRow
+                      granted={result.bonuses.efficiency.granted}
+                      label="Effizienzbonus"
+                      reason={result.bonuses.efficiency.reason}
+                      value={result.bonuses.efficiency.granted ? `${result.bonuses.efficiency.rate}%` : '0%'}
+                    />
+                  )}
+
+                  {/* Klimageschwindigkeitsbonus */}
+                  <BonusRow
+                    granted={result.bonuses.speed.granted}
+                    label={
+                      inputs.buildingType === 'condominium_assoc'
+                        ? 'Ihr persönlicher Klimabonus'
+                        : 'Klimageschwindigkeitsbonus'
+                    }
+                    reason={result.bonuses.speed.reason}
+                    value={result.bonuses.speed.granted ? `${result.bonuses.speed.rate}%` : '0%'}
+                  />
+
+                  {/* Einkommensbonus */}
+                  <BonusRow
+                    granted={result.bonuses.income.granted}
+                    label={
+                      inputs.buildingType === 'condominium_assoc'
+                        ? 'Ihr persönlicher Einkommensbonus'
+                        : 'Einkommensbonus'
+                    }
+                    reason={result.bonuses.income.reason}
+                    value={result.bonuses.income.granted ? `${result.bonuses.income.rate}%` : '0%'}
+                  />
+                </div>
+
+                {/* Eigenanteil */}
+                <div className="px-6 py-4 border-t border-[var(--w-border)] flex justify-between items-center">
+                  <span className="text-sm font-semibold text-[#222222]">Ihr voraussichtlicher Eigenanteil</span>
+                  <span className="text-lg font-bold text-[#222222]">
+                    {formatCurrency(
+                      inputs.buildingType === 'condominium_assoc'
+                        ? inputs.totalCosts * (inputs.ownershipShare / 100) - result.totalFunding
+                        : inputs.totalCosts - result.totalFunding
+                    )}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Informationen zur Förderung */}
-        <div className="mt-8 bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-[var(--color--dark-blue)] text-center mb-8">
-            Details zur Wärmepumpen-Förderung (BEG EM)
-          </h2>
-
-          {/* Förderkomponenten */}
-          <div className="mb-10">
-            <h3 className="flex items-center gap-3 text-xl font-semibold text-[var(--color--dark-blue)] mb-6 pb-3 border-b border-[var(--color--medium-grey)]">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
-                <path d="M20 7h-2.18c.11-.31.18-.65.18-1a3 3 0 00-3-3c-1.66 0-3 1.34-3 3 0 .35.07.69.18 1H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zm-9 0c0-.55.45-1 1-1s1 .45 1 1-.45 1-1 1-1-.45-1-1zm10 13H4V9h16v11z"/>
-              </svg>
-              Förderkomponenten im Überblick
-            </h3>
-            <p className="text-[var(--color--dark-grey)] mb-6">
-              Die Förderung setzt sich aus einer Grundförderung und optionalen Boni zusammen. Die Summe aller Komponenten ist auf einen maximalen Fördersatz von 70 % gedeckelt.
-            </p>
-
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-[var(--color--light-grey)]">
-                    <th className="text-left p-3 text-[var(--color--dark-blue)] font-semibold">Komponente</th>
-                    <th className="text-left p-3 text-[var(--color--dark-blue)] font-semibold">Zuschuss</th>
-                    <th className="text-left p-3 text-[var(--color--dark-blue)] font-semibold">Voraussetzungen</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3 font-medium">Grundförderung</td>
-                    <td className="p-3 font-bold">30 %</td>
-                    <td className="p-3 text-sm text-[var(--color--dark-grey)]">Für jede förderfähige Installation einer klimafreundlichen Heizung.</td>
-                  </tr>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3 font-medium">Klimageschwindigkeits-Bonus</td>
-                    <td className="p-3 font-bold">20 %</td>
-                    <td className="p-3 text-sm text-[var(--color--dark-grey)]">Nur für Selbstnutzer beim Austausch einer funktionstüchtigen fossilen oder mind. 20 Jahre alten Biomasseheizung.</td>
-                  </tr>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3 font-medium">Effizienz-Bonus</td>
-                    <td className="p-3 font-bold">5 %</td>
-                    <td className="p-3 text-sm text-[var(--color--dark-grey)]">Bei Nutzung von Wasser, Erdreich oder Abwasser als Wärmequelle <strong>oder</strong> bei Einsatz eines natürlichen Kältemittels.</td>
-                  </tr>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3 font-medium">Einkommens-Bonus</td>
-                    <td className="p-3 font-bold">30 %</td>
-                    <td className="p-3 text-sm text-[var(--color--dark-grey)]">Nur für Selbstnutzer mit einem zu versteuernden Haushaltseinkommen von max. 40.000 € pro Jahr.</td>
-                  </tr>
-                </tbody>
-              </table>
+          {/* ── Informationen zur Förderung ── */}
+          <div className="mt-10 border border-[var(--w-border)] bg-white">
+            <div className="px-6 py-5 border-b border-[var(--w-border)]">
+              <h2 className="text-xl font-light text-[#222222]">
+                Details zur Wärmepumpen-Förderung (BEG EM)
+              </h2>
             </div>
-          </div>
 
-          {/* Förderfähige Kosten */}
-          <div className="mb-10">
-            <h3 className="flex items-center gap-3 text-xl font-semibold text-[var(--color--dark-blue)] mb-6 pb-3 border-b border-[var(--color--medium-grey)]">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
-                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-.9.6-1.5 1.7-1.5 1.2 0 1.5.8 1.5 1.5H14c0-1.5-1.2-3-3.2-3C8.5 5.75 7 7.24 7 9.2c0 2.2 1.8 2.85 3.6 3.25 2.2.5 3 1.2 3 2.15 0 .9-.8 1.6-1.8 1.6-1.3 0-1.8-.9-1.8-1.7H8c0 1.7 1.3 3.1 3.2 3.1 2.4 0 3.8-1.5 3.8-3.3 0-2.1-1.7-2.8-3.2-3.15zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-              </svg>
-              Förderfähige Kosten & Höchstgrenzen
-            </h3>
-            <p className="text-[var(--color--dark-grey)] mb-4">
-              Nicht nur die Wärmepumpe selbst, sondern auch viele notwendige Nebenarbeiten (&quot;Umfeldmaßnahmen&quot;) sind förderfähig. Dazu zählen:
-            </p>
-            <ul className="space-y-2 mb-6">
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <span className="text-[var(--color--dark-grey)]">Fachplanung und Baubegleitung</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <span className="text-[var(--color--dark-grey)]">Installation und Inbetriebnahme</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <span className="text-[var(--color--dark-grey)]">Bohrungen für Erdsonden oder Brunnen</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <span className="text-[var(--color--dark-grey)]">Demontage und Entsorgung der Altanlage</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <span className="text-[var(--color--dark-grey)]">Optimierung des Heizsystems (z.B. neue Heizkörper, Pufferspeicher)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <span className="text-[var(--color--dark-grey)]">Durchführung des hydraulischen Abgleichs</span>
-              </li>
-            </ul>
-
-            <p className="text-[var(--color--dark-grey)] mb-4">
-              Die anrechenbaren Kosten sind nach der Anzahl der Wohneinheiten (WE) gestaffelt:
-            </p>
-
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-[var(--color--light-grey)]">
-                    <th className="text-left p-3 text-[var(--color--dark-blue)] font-semibold">Wohneinheit</th>
-                    <th className="text-left p-3 text-[var(--color--dark-blue)] font-semibold">Höchstgrenze der Kosten</th>
-                    <th className="text-left p-3 text-[var(--color--dark-blue)] font-semibold">Maximaler Zuschuss (bei 70%)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3">Erste Wohneinheit</td>
-                    <td className="p-3">30.000 €</td>
-                    <td className="p-3">21.000 €</td>
-                  </tr>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3">Zweite bis sechste WE (je)</td>
-                    <td className="p-3">15.000 €</td>
-                    <td className="p-3">10.500 €</td>
-                  </tr>
-                  <tr className="border-b border-[var(--color--medium-grey)] hover:bg-gray-50">
-                    <td className="p-3">Ab der siebten WE (je)</td>
-                    <td className="p-3">8.000 €</td>
-                    <td className="p-3">5.600 €</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Antragsprozess */}
-          <div className="mb-6">
-            <h3 className="flex items-center gap-3 text-xl font-semibold text-[var(--color--dark-blue)] mb-6 pb-3 border-b border-[var(--color--medium-grey)]">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-              </svg>
-              Der Antragsprozess Schritt für Schritt
-            </h3>
-            <p className="text-[var(--color--dark-grey)] mb-4">
-              Der Antrag muss grundsätzlich <strong>vor Beginn der Maßnahmen</strong> bei der KfW eingereicht werden. Der Ablauf ist wie folgt:
-            </p>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <div>
-                  <strong>Angebot & Vertrag:</strong> Holen Sie ein Angebot ein und schließen Sie einen Lieferungs-/Leistungsvertrag mit Ihrem Fachbetrieb ab. Wichtig: Der Vertrag muss eine Klausel enthalten, die ihn an die Förderzusage bindet (aufschiebende oder auflösende Bedingung).
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <div>
-                  <strong>Bestätigung zum Antrag (BzA):</strong> Ihr Fachbetrieb oder ein Energie-Effizienz-Experte erstellt die BzA. Dieses Dokument bestätigt die Förderfähigkeit Ihres Vorhabens.
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <div>
-                  <strong>Antrag bei der KfW stellen:</strong> Mit der BzA registrieren Sie sich im Kundenportal &quot;Meine KfW&quot; und stellen dort den eigentlichen Förderantrag.
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <div>
-                  <strong>Maßnahmenbeginn:</strong> Nach Erhalt der Antragsbestätigung von der KfW können Sie mit der Installation beginnen.
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--color--green)] font-bold mt-0.5">✓</span>
-                <div>
-                  <strong>Nachweise & Auszahlung:</strong> Nach Abschluss des Projekts reichen Sie die Rechnungen und weitere Nachweise im KfW-Portal ein. Nach erfolgreicher Prüfung wird Ihnen der Zuschuss ausgezahlt.
-                </div>
-              </li>
-            </ul>
-
-            <div className="mt-6 p-4 bg-[var(--color--light-green)] border-l-4 border-[var(--color--green)] rounded">
-              <p className="text-sm text-[var(--color--dark-blue)]">
-                <strong>Wichtig:</strong> Die Beauftragung des Fachbetriebs gilt bereits als Maßnahmenbeginn. Schließen Sie den Vertrag daher erst, nachdem Sie den Förderantrag gestellt haben, es sei denn, er enthält die oben genannte Förder-Bedingung.
+            {/* Förderkomponenten */}
+            <div className="px-6 py-6 border-b border-[var(--w-border)]">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#666] mb-4">
+                Förderkomponenten im Überblick
+              </h3>
+              <p className="text-sm text-[#666] mb-5">
+                Die Förderung setzt sich aus einer Grundförderung und optionalen Boni zusammen. Die Summe aller Komponenten ist auf einen maximalen Fördersatz von 70 % gedeckelt.
               </p>
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-[var(--w-border)]">
+                      <th className="text-left py-2 pr-4 font-semibold text-[#222222]">Komponente</th>
+                      <th className="text-left py-2 pr-4 font-semibold text-[#222222] whitespace-nowrap">Zuschuss</th>
+                      <th className="text-left py-2 font-semibold text-[#222222]">Voraussetzungen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      {
+                        name: 'Grundförderung',
+                        rate: '30 %',
+                        desc: 'Für jede förderfähige Installation einer klimafreundlichen Heizung.',
+                      },
+                      {
+                        name: 'Klimageschwindigkeits-Bonus',
+                        rate: '20 %',
+                        desc: 'Nur für Selbstnutzer beim Austausch einer funktionstüchtigen fossilen oder mind. 20 Jahre alten Biomasseheizung.',
+                      },
+                      {
+                        name: 'Effizienz-Bonus',
+                        rate: '5 %',
+                        desc: 'Bei Nutzung von Wasser, Erdreich oder Abwasser als Wärmequelle oder bei Einsatz eines natürlichen Kältemittels.',
+                      },
+                      {
+                        name: 'Einkommens-Bonus',
+                        rate: '30 %',
+                        desc: 'Nur für Selbstnutzer mit einem zu versteuernden Haushaltseinkommen von max. 40.000 € pro Jahr.',
+                      },
+                    ].map((row) => (
+                      <tr key={row.name} className="border-b border-[var(--w-border)]">
+                        <td className="py-3 pr-4 font-medium text-[#222222] whitespace-nowrap">{row.name}</td>
+                        <td className="py-3 pr-4 font-bold text-[var(--w-blue)] whitespace-nowrap">{row.rate}</td>
+                        <td className="py-3 text-[#666]">{row.desc}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Förderfähige Kosten */}
+            <div className="px-6 py-6 border-b border-[var(--w-border)]">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#666] mb-4">
+                Förderfähige Kosten & Höchstgrenzen
+              </h3>
+              <p className="text-sm text-[#666] mb-4">
+                Nicht nur die Wärmepumpe selbst, sondern auch viele notwendige Nebenarbeiten (&quot;Umfeldmaßnahmen&quot;) sind förderfähig. Dazu zählen:
+              </p>
+              <ul className="space-y-2 mb-6">
+                {[
+                  'Fachplanung und Baubegleitung',
+                  'Installation und Inbetriebnahme',
+                  'Bohrungen für Erdsonden oder Brunnen',
+                  'Demontage und Entsorgung der Altanlage',
+                  'Optimierung des Heizsystems (z.B. neue Heizkörper, Pufferspeicher)',
+                  'Durchführung des hydraulischen Abgleichs',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm">
+                    <span className="text-[var(--w-blue)] font-bold mt-0.5 flex-shrink-0">✓</span>
+                    <span className="text-[#666]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-sm text-[#666] mb-4">
+                Die anrechenbaren Kosten sind nach der Anzahl der Wohneinheiten (WE) gestaffelt:
+              </p>
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-[var(--w-border)]">
+                      <th className="text-left py-2 pr-4 font-semibold text-[#222222]">Wohneinheit</th>
+                      <th className="text-left py-2 pr-4 font-semibold text-[#222222]">Höchstgrenze</th>
+                      <th className="text-left py-2 font-semibold text-[#222222]">Max. Zuschuss (bei 70%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { label: 'Erste Wohneinheit', limit: '30.000 €', max: '21.000 €' },
+                      { label: 'Zweite bis sechste WE (je)', limit: '15.000 €', max: '10.500 €' },
+                      { label: 'Ab der siebten WE (je)', limit: '8.000 €', max: '5.600 €' },
+                    ].map((row) => (
+                      <tr key={row.label} className="border-b border-[var(--w-border)]">
+                        <td className="py-3 pr-4 text-[#222222]">{row.label}</td>
+                        <td className="py-3 pr-4 font-medium text-[#222222]">{row.limit}</td>
+                        <td className="py-3 font-medium text-[#222222]">{row.max}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Antragsprozess */}
+            <div className="px-6 py-6">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#666] mb-4">
+                Der Antragsprozess Schritt für Schritt
+              </h3>
+              <p className="text-sm text-[#666] mb-5">
+                Der Antrag muss grundsätzlich <strong>vor Beginn der Maßnahmen</strong> bei der KfW eingereicht werden. Der Ablauf ist wie folgt:
+              </p>
+              <ol className="space-y-4">
+                {[
+                  {
+                    title: 'Angebot & Vertrag',
+                    desc: 'Holen Sie ein Angebot ein und schließen Sie einen Lieferungs-/Leistungsvertrag mit Ihrem Fachbetrieb ab. Wichtig: Der Vertrag muss eine Klausel enthalten, die ihn an die Förderzusage bindet (aufschiebende oder auflösende Bedingung).',
+                  },
+                  {
+                    title: 'Bestätigung zum Antrag (BzA)',
+                    desc: 'Ihr Fachbetrieb oder ein Energie-Effizienz-Experte erstellt die BzA. Dieses Dokument bestätigt die Förderfähigkeit Ihres Vorhabens.',
+                  },
+                  {
+                    title: 'Antrag bei der KfW stellen',
+                    desc: 'Mit der BzA registrieren Sie sich im Kundenportal "Meine KfW" und stellen dort den eigentlichen Förderantrag.',
+                  },
+                  {
+                    title: 'Maßnahmenbeginn',
+                    desc: 'Nach Erhalt der Antragsbestätigung von der KfW können Sie mit der Installation beginnen.',
+                  },
+                  {
+                    title: 'Nachweise & Auszahlung',
+                    desc: 'Nach Abschluss des Projekts reichen Sie die Rechnungen und weitere Nachweise im KfW-Portal ein. Nach erfolgreicher Prüfung wird Ihnen der Zuschuss ausgezahlt.',
+                  },
+                ].map((step, i) => (
+                  <li key={step.title} className="flex gap-4 text-sm">
+                    <span className="w-6 h-6 rounded-full border border-[var(--w-blue)] text-[var(--w-blue)] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <strong className="text-[#222222]">{step.title}:</strong>{' '}
+                      <span className="text-[#666]">{step.desc}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="mt-6 px-4 py-3 border-l-2 border-[var(--w-blue)] bg-blue-50 text-sm text-[#222222]">
+                <strong>Wichtig:</strong> Die Beauftragung des Fachbetriebs gilt bereits als Maßnahmenbeginn. Schließen Sie den Vertrag daher erst, nachdem Sie den Förderantrag gestellt haben, es sei denn, er enthält die oben genannte Förder-Bedingung.
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </main>
+
       <Footer />
+    </div>
+  );
+}
+
+// ── Shared bonus row component ──
+function BonusRow({
+  granted,
+  label,
+  value,
+  reason,
+}: {
+  granted: boolean;
+  label: string;
+  value: string;
+  reason?: string;
+}) {
+  return (
+    <div className="flex justify-between items-center px-6 py-3">
+      <div className="flex items-start gap-3">
+        <span
+          className={`text-sm font-bold flex-shrink-0 mt-0.5 ${granted ? 'text-[var(--w-blue)]' : 'text-[#ccc]'}`}
+        >
+          {granted ? '✓' : '✗'}
+        </span>
+        <div>
+          <span className={`text-sm ${granted ? 'text-[#222222]' : 'text-[#999]'}`}>{label}</span>
+          {!granted && reason && (
+            <div className="text-xs text-[#bbb] mt-0.5">{reason}</div>
+          )}
+        </div>
+      </div>
+      <span className={`text-sm font-semibold ml-4 flex-shrink-0 ${granted ? 'text-[#222222]' : 'text-[#ccc]'}`}>
+        {value}
+      </span>
     </div>
   );
 }

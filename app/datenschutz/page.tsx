@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 export default function Datenschutz() {
   return (
-    <div className="min-h-screen bg-[var(--color--light-grey)] flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--w-surface)' }}>
       <Header />
 
       <main className="flex-1">
